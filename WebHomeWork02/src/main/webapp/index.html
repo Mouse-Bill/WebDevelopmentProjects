@@ -1,0 +1,60 @@
+<!---编写html页面，提供注册表单，注册表单中至少要用到文本框、多选框、单选框、下拉列表等表单元素-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>注册</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      width: 300px;
+      margin: 0 auto;
+    }
+    .attribute {
+      display: inline-block;
+      width: 75px;
+      text-align: justify;
+      text-align-last: justify;
+      text-justify: distribute-all-lines;
+    }
+    .item {
+      margin: 10px 0;
+      margin-left: 15px;
+    }
+    
+  </style>
+</head>
+
+<body style="background-color: #f0f0f0; font-family: sans-serif;">
+  <h1>注册</h1>
+  <form action="register" method="post">
+    <fieldset>
+      <legend>注册信息</legend>
+      <div class="item">
+    <span class="attribute">用户名</span>: <input type="text" name="username" value=""></div>
+    <div class="item">
+    <span class="attribute">密码</span>: <input type="password" name="password" value=""></div>
+    <div class="item">
+    <span class="attribute">性别</span>: <input type="radio" name="sex" value="male">男 <input type="radio" name="sex" value="female">女</div>
+    <div class="item">
+    <span class="attribute">爱好</span>: <input type="checkbox" name="hobby" value="basketball">篮球 <input type="checkbox" name="hobby"
+      value="football">足球 <input type="checkbox" name="hobby" value="swimming">游泳</div>
+    <div class="item">
+      <span class="attribute">学校</span>: <select name="school">
+      <option value="NEU">东北大学</option>
+      <option value="JLU">吉林大学</option>
+      <option value="THU">清华大学</option>
+    </select>
+    </div>
+    <div style="text-align: center;">
+    <input type="submit" value="提交" class="button" >
+  </div>
+  </fieldset>
+  </form>
+</body>
+
+</html>
