@@ -3,4 +3,30 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
+    <servlet>
+        <servlet-name>InitTest01</servlet-name>
+        <servlet-class>org.bill.webhomework03.InitTest01</servlet-class>
+        <init-param>
+            <param-name>msg01</param-name>
+            <param-value>"A message from Web Configuration file and displayed by InitTest01 Servlet"</param-value>
+        </init-param>
+        <load-on-startup>7</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitTest01</servlet-name>
+        <url-pattern>/init-test01</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>InitTest02</servlet-name>
+        <servlet-class>org.bill.webhomework03.InitTest02</servlet-class>
+        <init-param>
+            <param-name>msg02</param-name>
+            <param-value>"A message from Web Configuration file and displayed by InitTest02 Servlet"</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitTest02</servlet-name>
+        <url-pattern>/init-test02</url-pattern>
+    </servlet-mapping>
 </web-app>

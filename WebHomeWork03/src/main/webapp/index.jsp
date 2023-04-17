@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Test Servlet initialization</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
+<h1><%= "Test Servlet initialization" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="init-test01">Test Servlet initialization using Servlet InitTest01</a><br>
+<a href="init-test02">Test Servlet initialization using Servlet InitTest02</a>
 </body>
 </html>
