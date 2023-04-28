@@ -13,6 +13,6 @@
 </servlet>
     <servlet-mapping>
         <servlet-name>InitTest</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/wildcard-test/*</url-pattern>
     </servlet-mapping>
 </web-app>

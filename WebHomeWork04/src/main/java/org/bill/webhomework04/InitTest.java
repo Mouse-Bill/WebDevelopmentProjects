@@ -1,12 +1,13 @@
 package org.bill.webhomework04;
 
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class InitTest extends HelloServlet{
+public class InitTest extends HttpServlet{
     private String message;
 
     public void init(){
