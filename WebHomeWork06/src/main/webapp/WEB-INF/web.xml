@@ -3,4 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
+    <servlet>
+        <servlet-name>RT01</servlet-name>
+        <servlet-class>org.bill.webhomework06.RedirectTest01</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RT01</servlet-name>
+        <url-pattern>/redirect01</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RT02</servlet-name>
+        <servlet-class>org.bill.webhomework06.RedirectTest02</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RT02</servlet-name>
+        <url-pattern>/redirect02</url-pattern>
+    </servlet-mapping>
 </web-app>
