@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      width: 300px;
+      margin: 0 auto;
+    }
+    .attribute {
+      display: inline-block;
+      width: 75px;
+      text-align: justify;
+      text-align-last: justify;
+      text-justify: distribute-all-lines;
+    }
+    .item {
+      margin: 10px 0;
+      margin-left: 20px;
+    }
+    </style>
+</head>
+<body style="background-color: #f0f0f0; font-family: sans-serif;">
+<h1>Login</h1>
+<form action="login" method="post">
+  <fieldset>
+    <legend>User Info</legend>
+    <div class="item">
+      <span class="attribute">用户名</span>: <input type="text" name="username" value=""></div>
+    <div class="item">
+      <span class="attribute">密码</span>: <input type="password" name="password" value=""></div>
+    <div style="text-align: center;">
+      <input type="submit" value="提交" class="button" >
+    </div>
+  </fieldset>
+</form>
+</body>
+</html>
