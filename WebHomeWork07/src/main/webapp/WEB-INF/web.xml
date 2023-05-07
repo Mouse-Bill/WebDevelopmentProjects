@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+    <servlet>
+        <servlet-name>CookieTest</servlet-name>
+        <servlet-class>org.bill.webhomework07.CookieTest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CookieTest</servlet-name>
+        <url-pattern>/cookie-test</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SessionTest</servlet-name>
+        <servlet-class>org.bill.webhomework07.SessionTest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SessionTest</servlet-name>
+        <url-pattern>/session-test</url-pattern>
+    </servlet-mapping>
+</web-app>
