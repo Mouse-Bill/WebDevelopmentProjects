@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Count Test</title>
 </head>
-<body>
-<h1><%= "Hello World!" %>
+<body style="font-family: sans-serif">
+<h1><%= "Count Test" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="count-test">Count Test</a>
 </body>
 </html>
