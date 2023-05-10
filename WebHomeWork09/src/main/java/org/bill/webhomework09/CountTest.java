@@ -17,6 +17,6 @@ public class CountTest extends HttpServlet {
         resp.setContentType("text/html");
         resp.getWriter().println("<html><body style = \"font-family: sans-serif\">");
         resp.getWriter().println("<h1>Count: " + app.getAttribute("count") + "</h1>");
-        resp.getWriter().println("<p> Is new session: "+ session.isNew()+"</p>");
+        resp.getWriter().println("<h2>New session: "+ session.isNew()+"</h2>");
     }
 }
