@@ -1,0 +1,73 @@
+package org.bill.foodsystem.service.impl;
+
+import org.bill.foodsystem.dao.FoodDao;
+import org.bill.foodsystem.dao.FtypeDao;
+import org.bill.foodsystem.dao.impl.FoodDaoImpl;
+import org.bill.foodsystem.dao.impl.FtypeDaoImpl;
+import org.bill.foodsystem.entity.Food;
+import org.bill.foodsystem.entity.Ftype;
+import org.bill.foodsystem.service.FoodService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class FoodServiceImpl implements FoodService {
+    private FoodDao foodDao = new FoodDaoImpl();
+    private FtypeDao ftypeDao = new FtypeDaoImpl();
+    @Override
+    public List<Food> getAllWithFtype() {
+        List<Food> list = foodDao.selectAll();
+        Map<Integer, Ftype> map = new HashMap<Integer, Ftype>();
+        int count =0;
+        for(int i=0;i<list.size();i++) {
+            Food food = list.get(i);
+            int tid = food.getTid();
+            Ftype ftype = map.get(tid);
+
+            if(ftype==null) {
+                ftype = ftypeDao.selectByTid(tid);
+                count++;
+                map.put(tid,ftype);
+            }
+            food.setFtype(ftype);
+        }
+        System.out.println(count);
+        return list;
+    }
+
+    @Override
+    public boolean add(Food food) {
+        int count = foodDao.insert(food);
+        if(count>0)
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean remove(int fid) {
+        int count = foodDao.delete(fid);
+        if(count>0)
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean change(Food food) {
+        if(food==null)
+            return false;
+        if(food.getFid()==null)
+            return false;
+        if(food.getTid()==null && food.getFname()== null && food.getFpic()==null && food.getFprice() == null )
+            return false;
+        int count = foodDao.update(food);
+        if(count>0)
+            return true;
+        return false;
+    }
+
+    @Override
+    public Food getByFid(int fid) {
+        return foodDao.selectByFid(fid);
+    }
+}

@@ -2,7 +2,10 @@ package org.bill.foodsystem.util.db;
 
 import java.sql.*;
 
+
 public class BaseDao {
+
+    private static BaseDao baseDao;
     private Connection connection;
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
@@ -20,16 +23,33 @@ public class BaseDao {
         }
     }
 
+    private BaseDao() {
+        open();
+    }
+
+    public static synchronized BaseDao getInstance() {
+        if (baseDao == null) {
+            baseDao = new BaseDao();
+        }
+        return baseDao;
+    }
+
     // Connect to DataBase
-    public void open(){
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void open() {
+        if (connection != null) {
+            return;
+        } else {
+            try {
+                connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                System.out.println("Connection Success!");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
+
     // Create PreparedStatement
-    private void createPreparedStatement(String sql, Object[] params) {
+    private void createPreparedStatement(String sql, Object... params) {
         try {
             preparedStatement = connection.prepareStatement(sql);
             if (params != null) {
@@ -43,7 +63,7 @@ public class BaseDao {
     }
 
     // Execute SQL Query
-    public ResultSet executeQuery(String sql, Object[] params) {
+    public ResultSet executeQuery(String sql, Object... params) {
         try {
             createPreparedStatement(sql, params);
             resultSet = preparedStatement.executeQuery();
@@ -53,8 +73,9 @@ public class BaseDao {
         }
         return null;
     }
+
     // Execute SQL Update
-    public int executeUpdate(String sql, Object[] params) {
+    public int executeUpdate(String sql, Object... params) {
         int result = -1;
         try {
             createPreparedStatement(sql, params);
@@ -64,30 +85,31 @@ public class BaseDao {
         }
         return result;
     }
+
     // Close Connection
-    public void close(){
-        if (this.resultSet != null){
+    public void close() {
+        if (this.resultSet != null) {
             try {
                 resultSet.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
                 resultSet = null;
             }
         }
-        if (this.preparedStatement != null){
+        if (this.preparedStatement != null) {
             try {
                 preparedStatement.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
                 preparedStatement = null;
             }
         }
-        if (this.connection != null){
+        if (this.connection != null) {
             try {
                 connection.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
                 connection = null;
