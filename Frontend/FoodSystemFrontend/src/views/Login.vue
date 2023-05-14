@@ -18,7 +18,7 @@
                             <el-input v-model="form.username" placeholder="Username" />
                         </el-form-item>
                         <el-form-item label="Password" prop="passwd">
-                            <el-input type="password" placeholder="Password" v-model="form.password" />
+                            <el-input type="password" placeholder="Password" v-model="form.passwd" />
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit()">Login</el-button>
@@ -45,11 +45,10 @@ const form = reactive({
 });
 const ruleFormRef = ref();
 const rules = reactive({
-  username: [{ required: true, message: "账号不能为空", trigger: "blur" }],
-  passwd: [{ required: true, message: "密码不能为空", trigger: "blur" }],
+  //username: [{ required: true, message: "账号不能为空", trigger: "blur" }],
+  //passwd: [{ required: true, message: "密码不能为空", trigger: "blur" }],
 });
 
-const userToken:'';
 
 const onSubmit = () => {
   if (!ruleFormRef) return;
@@ -57,9 +56,11 @@ const onSubmit = () => {
     if (valid) {
       const res = await userApi.login(form);
       if (res.data) {
-        if (res.data.success) {
+        sessionStorage.setItem("token", res.headers.token);
+        console.log(res.data);
+        console.log(res.headers.token);
+        if (res.data.isOK) {
           // proxy.$commonJs.changeView('/home');
-          r
           router.push("/home");
         } else {
           ElMessage.error(res.data.message);
@@ -102,5 +103,4 @@ const resetForm = () => {
   height: 200px;
   border-radius: 10px;
 }
-
 </style>

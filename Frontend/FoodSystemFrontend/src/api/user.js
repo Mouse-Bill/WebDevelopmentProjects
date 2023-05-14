@@ -1,6 +1,8 @@
 import http from '../utils/http/http.js'
 
 const login = (data) => {
-    return http.post("/user-info/login",data)
+    return http.post("/userinfo/login",data)
 };
-
+export default {
+    login
+}

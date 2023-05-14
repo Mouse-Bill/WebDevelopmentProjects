@@ -11,6 +11,7 @@ import org.bill.foodsystem.entity.Userinfo;
 import org.bill.foodsystem.service.UserinfoService;
 import org.bill.foodsystem.service.impl.UserinfoServiceImpl;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +19,23 @@ import java.util.Map;
 @WebServlet("/userinfo/login")
 public class LoginServlet extends HttpServlet {
     private UserinfoService userinfoService = new UserinfoServiceImpl();
+    private Userinfo userinfo = null;
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String passwd = request.getParameter("passwd");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Userinfo user = userinfoService.login(new Userinfo(null, username, passwd, null));
+        response.setContentType("application/json;charset=utf-8");
+
+
+        String reqBody = request.getReader().readLine();
+        if (reqBody != null) {
+            userinfo = new Gson().fromJson(reqBody, Userinfo.class);
+        }else {
+            String username = request.getParameter("username");
+            String passwd = request.getParameter("passwd");
+            userinfo = new Userinfo(null, username, passwd, null);
+        }
+
+        Userinfo user = userinfoService.login(userinfo);
 
         Map<String, Object> map = new HashMap<String, Object>();
 
@@ -33,9 +45,15 @@ public class LoginServlet extends HttpServlet {
             map.put("isOK", true);
             HttpSession session = request.getSession();
             session.setAttribute("loginUser", user);
+            response.addHeader("token", session.getId());
         }
 
         response.getWriter().write(new Gson().toJson(map));
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 
 }
