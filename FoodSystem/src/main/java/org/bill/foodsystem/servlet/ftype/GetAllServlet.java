@@ -19,13 +19,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/Ftype/All")
+@WebServlet("/ftype/getall")
 public class GetAllServlet extends HttpServlet {
 	
 	private FtypeService ftypeService = new FtypeServiceImpl();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		response.setContentType("application/json;charset=utf-8");
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		map.put("list",ftypeService.getAll());

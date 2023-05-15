@@ -1,5 +1,6 @@
 package org.bill.foodsystem;
 
+import com.google.gson.Gson;
 import org.bill.foodsystem.entity.Food;
 import org.bill.foodsystem.entity.Ftype;
 import org.bill.foodsystem.entity.Userinfo;
@@ -17,12 +18,7 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
         System.out.println("Hello World!");
-        UserinfoService userinfoService = new UserinfoServiceImpl();
-        Userinfo userinfo = new Userinfo();
-        userinfo.setUsername("admin");
-        userinfo.setPasswd("admin");
-        Userinfo user = userinfoService.login(userinfo);
-        System.out.println(user);
-
+        Gson gson = new Gson();
+        Food food = gson.fromJson("{\"fname\":\"ghjkjhkgfg\",\"ftype\":14,\"fdesc\":\"dfhgjkhgf\"}", Food.class);
     }
 }

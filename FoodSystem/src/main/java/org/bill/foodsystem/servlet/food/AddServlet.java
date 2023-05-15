@@ -7,6 +7,7 @@ import java.nio.Buffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.servlet.annotation.WebServlet;
 import org.bill.foodsystem.entity.Food;
 import org.bill.foodsystem.service.FoodService;
 import org.bill.foodsystem.service.impl.FoodServiceImpl;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@WebServlet("/food/add")
 public class AddServlet extends HttpServlet {
     private FoodService foodService = new FoodServiceImpl();
     private Gson gson = new Gson();
@@ -28,7 +30,10 @@ public class AddServlet extends HttpServlet {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
         Map<String, Object> map = new HashMap<String,Object>();
-        map.put("isOk", foodService.add(gson.fromJson(br.readLine(), Food.class)));
+        String json = br.readLine();
+        System.out.println(json);
+        map.put("isOk", foodService.add(gson.fromJson(json, Food.class)));
         response.getWriter().write(new Gson().toJson(map));
+        System.out.println("add");
     }
 }

@@ -4,33 +4,52 @@
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>食品管理</el-breadcrumb-item>
     </el-breadcrumb>
-
-    
+    <FoodAdder :user="user" ref="visiableDialog"></FoodAdder>
     <el-card class="main-card">
       <el-row :gutter="20">
-      <el-col :span="8">
-        <!-- 搜索与添加区域 -->
-          <el-input placeholder="请输入内容" >
-          <template #append>
-            <el-icon><search /></el-icon>
-          </template>
+        <el-col :span="8">
+          <!-- 搜索与添加区域 -->
+          <el-input placeholder="请输入内容">
+            <template #append>
+              <el-icon>
+                <search />
+              </el-icon>
+            </template>
           </el-input>
-      </el-col>
-      <el-col :span="4">
-        <el-button type="primary">添加用户</el-button>
-      </el-col>
-    </el-row>
+        </el-col>
+        <el-col :span="4">
+          <el-button type="primary" @click="openDialog">添加食品</el-button>
+        </el-col>
+      </el-row>
 
-      <el-table :data="tableData()" style="width: 100%">
-        <el-table-column type="fid" label="ID" width="50" />
+      <el-table :data="tableData()" style="margin-bottom: 10px;">
+        <el-table-column prop="fid" label="ID" width="50" />
         <el-table-column prop="fname" label="名字" width="180" />
         <el-table-column prop="fpic" label="图片" width="180" />
         <el-table-column prop="fprice" label="价格" width="180" />
         <el-table-column prop="ftype.tname" label="类型" width="180" />
+        <el-table-column prop="fdesc" label="描述" />
+        <el-table-column label="操作">
+          <template v-slot="scope">
+            <!-- 修改按钮 -->
+            <el-button type="primary" v-model="scope.row.Id" size="mini"><el-icon>
+                <edit />
+              </el-icon></el-button>
+            <!-- 删除按钮 -->
+            <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
+              <el-button type="danger" size="mini"><el-icon>
+                  <delete />
+                </el-icon></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+
       </el-table>
-      <el-pagination v-model:currentPage="food.pagenum" :page-sizes="[10, 30, 50, 100]"
-        layout=" prev, pager, next, jumper,total, sizes," :total="400" @size-change="handleSizeChange"
-        @current-change="handleCurrentChange" />
+      <div style="margin-bottom: 30px;">
+        <el-pagination v-model:currentPage="food.pagenum" :page-sizes="[10, 30, 50, 100]"
+          layout=" prev, pager, next, jumper,total, sizes," :total="400" @size-change="handleSizeChange"
+          @current-change="handleCurrentChange" />
+      </div>
     </el-card>
   </div>
 </template>
@@ -38,6 +57,21 @@
 <script setup>
 import { reactive } from 'vue';
 import http from '../utils/http/http';
+import FoodAdder from '../components/Home/FoodAdder.vue'
+import { ref } from 'vue';
+
+const visiableDialog = ref(null)
+
+function openDialog() {
+  visiableDialog.value.dialogVisble = true
+  console.log(visiableDialog.value.dialogVisble);
+}
+
+const user = reactive({
+  name: '张三',
+  age: 20
+})
+
 
 console.log("setup");
 // const queryInfo = reactive({
@@ -54,6 +88,7 @@ var food = reactive({
   pagenum: 1,
   pagesize: 10,
 });
+
 
 // var foodList = [
 //   {
@@ -176,4 +211,7 @@ const deleteFood = async (id) => {
   margin-top: 20px;
 }
 
+.el-pagination {
+  float: left;
+}
 </style>
