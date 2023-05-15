@@ -43,13 +43,16 @@ public class BaseDao {
                 connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
                 System.out.println("Connection Success!");
             } catch (Exception e) {
-                e.printStackTrace();
+                open();
             }
         }
     }
 
     // Create PreparedStatement
     private void createPreparedStatement(String sql, Object... params) {
+        if (connection == null) {
+            open();
+        }
         try {
             preparedStatement = connection.prepareStatement(sql);
             if (params != null) {
@@ -64,6 +67,9 @@ public class BaseDao {
 
     // Execute SQL Query
     public ResultSet executeQuery(String sql, Object... params) {
+        if (connection == null) {
+            open();
+        }
         try {
             createPreparedStatement(sql, params);
             resultSet = preparedStatement.executeQuery();
@@ -76,6 +82,9 @@ public class BaseDao {
 
     // Execute SQL Update
     public int executeUpdate(String sql, Object... params) {
+        if (connection == null) {
+            open();
+        }
         int result = -1;
         try {
             createPreparedStatement(sql, params);

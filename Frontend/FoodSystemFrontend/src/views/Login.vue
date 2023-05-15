@@ -48,7 +48,9 @@ const rules = reactive({
   //username: [{ required: true, message: "账号不能为空", trigger: "blur" }],
   //passwd: [{ required: true, message: "密码不能为空", trigger: "blur" }],
 });
-
+// if (sessionStorage.getItem("token")) {
+//   router.push("/home");
+// }
 
 const onSubmit = () => {
   if (!ruleFormRef) return;

@@ -68,6 +68,7 @@ public class LoginServlet extends HttpServlet {
             if (user != null) {
                 try {
                     token = JWT.createJWT(String.valueOf(user.getUserid()), user.getUsername(), 1000 * 60 * 60);
+                    System.out.println("Gen: "+ token);
                     response.addHeader("token", token);
 
                 } catch (Exception e) {

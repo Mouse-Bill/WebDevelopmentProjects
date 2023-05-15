@@ -19,8 +19,15 @@ const routes = [
     meta: {
       title: '首页'
     },
-    component: () => import('../views/HelloWorld.vue')
+    component: () => import('../views/Home.vue'),
+    children: [
+      {
+        path: '/home/index',
+        component: () => import('../views/FoodTable.vue')
+      }
+    ]
   }
+  
 ]
 
 const router = createRouter({

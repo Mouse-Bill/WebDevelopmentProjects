@@ -1,8 +1,11 @@
 package org.bill.foodsystem.servlet.food;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.google.gson.Gson;
 import org.bill.foodsystem.entity.Food;
 import org.bill.foodsystem.service.FoodService;
 import org.bill.foodsystem.service.impl.FoodServiceImpl;
@@ -13,7 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/Food/All")
+@WebServlet("/food/getall")
 public class GetAllServlet extends HttpServlet {
 
     private FoodService foodService = new FoodServiceImpl();
@@ -21,17 +24,18 @@ public class GetAllServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        response.setContentType("application/json;charset=utf-8");
         List<Food> list = foodService.getAllWithFtype();
 
         request.setAttribute("list", list);
 
-        request.getRequestDispatcher("/Show.jsp").forward(request, response);
+        // request.getRequestDispatcher("/Show.jsp").forward(request, response);
 
-        // Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map = new HashMap<String, Object>();
 
-        // map.put("list",list);
+        map.put("list",list);
 
-        // response.getWriter().write(new Gson().toJson(map));
+        response.getWriter().write(new Gson().toJson(map));
 
     }
 

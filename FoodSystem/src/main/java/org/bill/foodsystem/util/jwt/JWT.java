@@ -12,11 +12,11 @@ import java.util.Date;
 
 public class JWT {
 
-    private static final String profiles="webapp";
+    private static final String profiles="X7hAIGEdtALI7YhB0hloygVpQf3iSSyI8nvCqXXK86Pu74661PXNF6KSVkFBCMy5";
     private static SecretKey generalKey(){
         String stringKey = profiles;
         byte[] encodedKey = Base64.decodeBase64(stringKey);
-        SecretKey key = new SecretKeySpec(encodedKey, 0, 256, "AES");
+        SecretKey key = new SecretKeySpec(encodedKey, "HmacSHA256");
         return key;
     }
 
