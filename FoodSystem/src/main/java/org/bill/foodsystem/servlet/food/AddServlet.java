@@ -32,7 +32,8 @@ public class AddServlet extends HttpServlet {
         Map<String, Object> map = new HashMap<String,Object>();
         String json = br.readLine();
         System.out.println(json);
-        map.put("isOk", foodService.add(gson.fromJson(json, Food.class)));
+        Food food = gson.fromJson(json, Food.class);
+        map.put("isOK", foodService.add(food));
         response.getWriter().write(new Gson().toJson(map));
         System.out.println("add");
     }

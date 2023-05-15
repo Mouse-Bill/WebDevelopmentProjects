@@ -92,10 +92,11 @@ public class FoodDaoImpl implements FoodDao {
 
     @Override
     public int insert(Food food) {
-        String sql = "insert into food(fid,tid,fname,fprice,fdesc,fregtime) values(food_fid_seq.nextval,?,?,?,?,sysdate)";
+        String sql = "insert into food(tid,fname,fprice,fdesc,fregtime) values(?,?,?,?,NOW())";
         int count = -1;
         BaseDao baseDao = BaseDao.getInstance();
         baseDao.open();
+        System.out.println("tid: "+ food.getTid());
         count = baseDao.executeUpdate(sql,food.getTid(),food.getFname(),food.getFprice(),food.getFdesc());
         //baseDao.close();
         return count;

@@ -19,6 +19,7 @@ public class Test {
     public static void main(String[] args) {
         System.out.println("Hello World!");
         Gson gson = new Gson();
-        Food food = gson.fromJson("{\"fname\":\"鸡蛋\",\"fprice\":2.5,\"ftype\":{\"ftid\":1,\"ftname\":\"蛋类\"}}", Food.class);
+        Food food = gson.fromJson("{\"fname\":\"ttttttt\",\"ftype\":{\"tid\":14,\"tname\":\"冰饮\"},\"fdesc\":\"tttttt\"}", Food.class);
+        System.out.println(food.getTid());
     }
 }

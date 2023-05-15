@@ -17,7 +17,11 @@ public class Food {
         this.fid = fid;
     }
     public Integer getTid() {
-        return tid;
+        if (tid != null) {
+            return tid;
+        }else {
+            return ftype.getTid();
+        }
     }
     public void setTid(Integer tid) {
         this.tid = tid;
@@ -64,6 +68,8 @@ public class Food {
     public void setFtype(Ftype ftype) {
         this.ftype = ftype;
     }
+
+
     @Override
     public String toString() {
         return "Food [fid=" + fid + ", tid=" + tid + ", fname=" + fname + ", fpic=" + fpic + ", fprice=" + fprice

@@ -7,9 +7,14 @@
         </el-form-item>
 
         <el-form-item label="食品类型" prop="ftype">
-          <el-select v-model="data.ruleForm.ftype" placeholder="请选择食品类型">
-            <el-option v-for="item in data.foodType" :key="item.tid" :label="item.tname" :value="item.tid"></el-option>
+          <el-select v-model="data.ruleForm.ftype" placeholder="请选择食品类型" value-key="tid">
+            <el-option v-for="item in data.foodType" :key="item.tid" :label="item.tname"
+              :value="item"></el-option>
           </el-select>
+        </el-form-item>
+        
+        <el-form-item label="食品价格" prop="fprice">
+          <el-input v-model="data.ruleForm.fprice"></el-input>
         </el-form-item>
 
         <el-form-item label="食品描述" prop="fdesc">
@@ -34,6 +39,7 @@ import { ref } from 'vue';
 import { ElMessageBox } from 'element-plus'
 import { reactive } from 'vue';
 import http from '../../utils/http/http';
+import { getCurrentInstance } from 'vue'
 
 const ruleForm = ref(null)
 
@@ -41,7 +47,8 @@ const data = reactive(
   {
     ruleForm: {
       fname: '',
-      ftype: '',
+      fprice: '',
+      ftype: {},
       fdesc: ''
     },
     rules: {
@@ -50,7 +57,10 @@ const data = reactive(
         { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
       ],
       ftype: [
-        { required: false, message: '请选择食品类型', trigger: 'change' }
+        { required: true, message: '请选择食品类型', trigger: 'change' }
+      ],
+      fprice: [
+        { required: true, message: '请填写食品价格', trigger: 'blur' }
       ],
       fdesc: [
         { required: true, message: '请填写活动形式', trigger: 'blur' }
