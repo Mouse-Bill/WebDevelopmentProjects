@@ -77,19 +77,19 @@ const data = reactive(
 
 
 
-// const getFoodType = async () => {
-//   const res = await http.get('/ftype/getall');
-//   if (res.status === 200) {
-//     const array = [];
-//     for (let key in res.data.list) {
-//       array.push({ tid: res.data.list[key].tid, tname: res.data.list[key].tname })
-//     }
-//     data.foodType = array;
-//   }
-//   console.log(data.foodType);
-// };
+const getFoodType = async () => {
+  const res = await http.get('/ftype/getall');
+  if (res.status === 200) {
+    const array = [];
+    for (let key in res.data.list) {
+      array.push({ tid: res.data.list[key].tid, tname: res.data.list[key].tname })
+    }
+    data.foodType = array;
+  }
+  console.log(data.foodType);
+};
 
-// getFoodType()
+getFoodType()
 
 const submitUpdate = (formName) => {
   if (ruleForm.value) {
@@ -154,7 +154,6 @@ watch(() => props.food, (newVal, oldVal) => {
   console.log(newVal);
   console.log(oldVal);
   if (newVal) {
-    dialogVisble.value = true
     data.ruleForm.fname = newVal.fname
     data.ruleForm.fprice = newVal.fprice.toString()
     data.ruleForm.ftype = { tid: newVal.ftype.tid, tname: newVal.ftype.tname }

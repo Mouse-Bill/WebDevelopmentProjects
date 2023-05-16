@@ -4,8 +4,9 @@
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>食品管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <FoodAdder :user="user" ref="addVisiableDialog"></FoodAdder>
-    <FoodEditor :food="food.selectedFood" ref="editVisiableDialog"></FoodEditor>
+    <FoodAdder :user="user" ref="addDialog"></FoodAdder>
+    <FoodEditor :food="food.selectedFood" ref="editDialog"></FoodEditor>
+    <ImageUploader ref="uploadDialog"></ImageUploader>
     <el-card class="main-card">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -42,7 +43,7 @@
                 <edit />
               </el-icon></el-button>
             <!-- 图片 -->
-            <el-button type="primary" v-model="scope.row.fid" size="mini" @click=""><el-icon>
+            <el-button type="primary" v-model="scope.row.fid" size="mini" @click="handleImageUpload(scope.row.fid)"><el-icon>
                 <picture-filled />
               </el-icon></el-button>
             <!-- 删除按钮 -->
@@ -70,10 +71,12 @@ import { ElMessage } from 'element-plus'
 import http from '../utils/http/http';
 import FoodAdder from '../components/Home/FoodAdder.vue'
 import FoodEditor from '../components/Home/FoodEditor.vue'
+import ImageUploader from '../components/Home/ImageUploader.vue';
 import { ref } from 'vue';
 
-const addVisiableDialog = ref(null)
-const editVisiableDialog = ref(null)
+const addDialog = ref(null)
+const editDialog = ref(null)
+const uploadDialog = ref(null)
 
 const queryInfo = reactive({
   query: '',
@@ -81,8 +84,7 @@ const queryInfo = reactive({
   pagesize: 10
 });
 
-var pagenum = reactive(1);
-var pagesize = reactive(10);
+
 const food = reactive({
   list: [],
   total: 0,
@@ -172,8 +174,8 @@ const total = reactive(0);
 console.log(food.list);
 
 function openAdderDialog() {
-  addVisiableDialog.value.dialogVisble = true
-  console.log(addVisiableDialog.value.dialogVisble);
+  addDialog.value.dialogVisble = true
+  console.log(addDialog.value.dialogVisble);
 }
 
 const getFoodList = async () => {
@@ -207,7 +209,7 @@ const handleEdit = (id) => {
   food.selectedFood = food.list.find(item => item.fid === id);
   console.log(id);
   console.log("father" + food.selectedFood);
-  editVisiableDialog.value.dialogVisble = true
+  editDialog.value.dialogVisble = true
 };
 
 
@@ -239,6 +241,16 @@ const searchFoodList = async () => {
     food.list = data.data.list;
     food.total = data.data.list.length;
   }
+};
+
+const handleImageUpload = (id) => {
+  console.log(id);
+  food.selectedFood = food.list.find(item => item.fid === id);
+  console.log(food.selectedFood);
+  uploadDialog.value.dialogVisble = true
+  console.log("up: "+uploadDialog.value.dialogVisble);
+  console.log("edit: "+editDialog.value.dialogVisble);
+
 };
 
 </script>

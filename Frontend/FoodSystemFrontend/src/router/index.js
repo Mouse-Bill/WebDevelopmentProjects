@@ -26,6 +26,14 @@ const routes = [
         component: () => import('../views/FoodTable.vue')
       }
     ]
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    meta: {
+      title: 'Test'
+    },
+    component: () => import('../views/Test.vue')
   }
   
 ]

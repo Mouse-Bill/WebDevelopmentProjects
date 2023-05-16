@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
 
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import org.bill.foodsystem.service.FoodService;
 import org.bill.foodsystem.service.impl.FoodServiceImpl;
 
@@ -19,6 +21,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
+@WebServlet("/img/upload")
+@MultipartConfig
 public class ChangeServlet extends HttpServlet {
     private FoodService foodService = new FoodServiceImpl();
     private Gson gson = new Gson();
