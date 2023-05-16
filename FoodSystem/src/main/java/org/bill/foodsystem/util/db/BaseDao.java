@@ -43,7 +43,7 @@ public class BaseDao {
         } else {
             try {
                 connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-                // System.out.println("Connection Success!");
+                System.out.println("Connection Success!");
             } catch (Exception e) {
                 open();
             }

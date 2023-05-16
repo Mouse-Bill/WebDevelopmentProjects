@@ -28,7 +28,10 @@
       <el-table :data="tableData()" style="margin-bottom: 10px;">
         <el-table-column prop="fid" label="ID" width="50" />
         <el-table-column prop="fname" label="名字" width="180" />
-        <el-table-column prop="fpic" label="图片" width="180" />
+        <el-table-column prop="fpic" label="图片" width="180">
+          <template v-slot="scope">
+            <img :src="'/api/foods/' + scope.row.fpic" alt="" width="100" height="100">
+          </template></el-table-column>
         <el-table-column prop="fprice" label="价格" width="180" />
         <el-table-column prop="ftype.tname" label="类型" width="180" />
         <el-table-column prop="fdesc" label="描述" />
@@ -38,10 +41,14 @@
             <el-button type="primary" v-model="scope.row.fid" size="mini" @click="handleEdit(scope.row.fid)"><el-icon>
                 <edit />
               </el-icon></el-button>
+            <!-- 图片 -->
+            <el-button type="primary" v-model="scope.row.fid" size="mini" @click=""><el-icon>
+                <picture-filled />
+              </el-icon></el-button>
             <!-- 删除按钮 -->
             <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
-              <el-button type="danger" size="mini"><el-icon>
-                  <delete />
+              <el-button type="danger" size="mini" v-model="scope.row.fid" @click="deleteFood(scope.row.fid)"><el-icon>
+                  <delete-filled />
                 </el-icon></el-button>
             </el-tooltip>
           </template>
@@ -59,6 +66,7 @@
 
 <script setup>
 import { reactive } from 'vue';
+import { ElMessage } from 'element-plus'
 import http from '../utils/http/http';
 import FoodAdder from '../components/Home/FoodAdder.vue'
 import FoodEditor from '../components/Home/FoodEditor.vue'
@@ -205,27 +213,31 @@ const handleEdit = (id) => {
 
 
 const deleteFood = async (id) => {
-  const { data: { meta } } = await http.delete(`/food/${id}`);
-  if (meta.status === 200) {
-    this.$message({
-      type: 'success',
-      message: meta.msg
-    });
-    getFoodList();
-  }
+  const data = await http.post('/food/delete', {
+    fid: id
+  }).then(res => {
+    if (res.status === 200 && res.data.isOK) {
+      ElMessage({
+        message: '删除成功',
+        type: 'success'
+      })
+      getFoodList();
+    }
+  }).catch(err => {
+    ElMessage({
+      message: '删除失败',
+      type: 'error'
+    })
+  })
 };
 
 const searchFoodList = async () => {
-  const { data: { meta } } = await http.get('/food/search', {
-    params: {
-      query: queryInfo.query,
-      pagenum: queryInfo.pagenum,
-      pagesize: queryInfo.pagesize
-    }
+  const data = await http.get('/food/search', {
+    query: queryInfo.query
   });
-  if (meta.status === 200) {
-    food.list = meta.list;
-    food.total = meta.total;
+  if (data.status === 200) {
+    food.list = data.data.list;
+    food.total = data.data.list.length;
   }
 };
 

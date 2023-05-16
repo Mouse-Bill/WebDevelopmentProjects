@@ -188,7 +188,6 @@ public class FoodDaoImpl implements FoodDao {
             }
             //baseDao.close();
             return list;
-
         }
     }
 }

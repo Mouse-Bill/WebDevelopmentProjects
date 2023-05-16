@@ -7,7 +7,11 @@ import org.bill.foodsystem.dao.impl.FtypeDaoImpl;
 import org.bill.foodsystem.entity.Food;
 import org.bill.foodsystem.entity.Ftype;
 import org.bill.foodsystem.service.FoodService;
+import org.bill.foodsystem.util.db.BaseDao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,22 +22,46 @@ public class FoodServiceImpl implements FoodService {
     
     @Override
     public List<Food> getAllWithFtype() {
-        List<Food> list = foodDao.selectAll();
-        Map<Integer, Ftype> map = new HashMap<Integer, Ftype>();
-        int count =0;
-        for(int i=0;i<list.size();i++) {
-            Food food = list.get(i);
-            int tid = food.getTid();
-            Ftype ftype = map.get(tid);
+//        List<Food> list = foodDao.selectAll();
+//        Map<Integer, Ftype> map = new HashMap<Integer, Ftype>();
+//        int count =0;
+//        for(int i=0;i<list.size();i++) {
+//            Food food = list.get(i);
+//            int tid = food.getTid();
+//            Ftype ftype = map.get(tid);
+//
+//            if(ftype==null) {
+//                ftype = ftypeDao.selectByTid(tid);
+//                count++;
+//                map.put(tid,ftype);
+//            }
+//            food.setFtype(ftype);
+//        }
+//        System.out.println(count);
+        String sql = "select * from food natural join ftype";
+        BaseDao baseDao = BaseDao.getInstance();
+        baseDao.open();
+        ResultSet resultSet = baseDao.executeQuery(sql);
 
-            if(ftype==null) {
-                ftype = ftypeDao.selectByTid(tid);
-                count++;
-                map.put(tid,ftype);
+        List<Food> list = new ArrayList<Food>();
+
+        try {
+            while (resultSet.next()) {
+                Food tFood = new Food(resultSet.getInt("fid"),
+                        resultSet.getInt("tid"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("fpic"),
+                        resultSet.getDouble("fprice"),
+                        resultSet.getInt("forder"),
+                        resultSet.getString("fdesc"),
+                        resultSet.getString("fregtime"));
+                tFood.setFtype(new Ftype(resultSet.getInt("tid"), resultSet.getString("tname")));
+                list.add(tFood);
             }
-            food.setFtype(ftype);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        System.out.println(count);
+
         return list;
     }
 
