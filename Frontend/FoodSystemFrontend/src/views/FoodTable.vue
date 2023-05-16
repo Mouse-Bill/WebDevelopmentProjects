@@ -10,11 +10,13 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <!-- 搜索与添加区域 -->
-          <el-input placeholder="请输入内容">
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable>
             <template #append>
-              <el-icon>
-                <search />
-              </el-icon>
+              <el-button type="primary" @click="searchFoodList">
+                <el-icon>
+                  <search />
+                </el-icon>
+              </el-button>
             </template>
           </el-input>
         </el-col>
@@ -65,11 +67,11 @@ import { ref } from 'vue';
 const addVisiableDialog = ref(null)
 const editVisiableDialog = ref(null)
 
-// const queryInfo = reactive({
-//   query: '',
-//   pagenum: 1,
-//   pagesize: 10
-// });
+const queryInfo = reactive({
+  query: '',
+  pagenum: 1,
+  pagesize: 10
+});
 
 var pagenum = reactive(1);
 var pagesize = reactive(10);
@@ -196,7 +198,7 @@ const handleCurrentChange = (val) => {
 const handleEdit = (id) => {
   food.selectedFood = food.list.find(item => item.fid === id);
   console.log(id);
-  console.log("father"+food.selectedFood);
+  console.log("father" + food.selectedFood);
   editVisiableDialog.value.dialogVisble = true
 };
 
@@ -212,6 +214,21 @@ const deleteFood = async (id) => {
     getFoodList();
   }
 };
+
+const searchFoodList = async () => {
+  const { data: { meta } } = await http.get('/food/search', {
+    params: {
+      query: queryInfo.query,
+      pagenum: queryInfo.pagenum,
+      pagesize: queryInfo.pagesize
+    }
+  });
+  if (meta.status === 200) {
+    food.list = meta.list;
+    food.total = meta.total;
+  }
+};
+
 </script>
 
 <style scoped>

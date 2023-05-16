@@ -10,4 +10,5 @@ public interface FoodService {
     boolean add(Food food);
     boolean remove(int fid);
     boolean change(Food food);
+    List<Food> search(String keywords);
 }

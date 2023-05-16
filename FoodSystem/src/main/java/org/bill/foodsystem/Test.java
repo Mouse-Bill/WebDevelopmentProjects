@@ -18,13 +18,9 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
         FoodService foodService = new FoodServiceImpl();
-        List<Food> list = foodService.getAllWithFtype();
+        List<Food> list = foodService.search("鸡");
         Gson gson = new Gson();
-        Food food = list.get(list.size() - 1);
-        System.out.println(gson.toJson(food));
-        food.setFprice(18.0);
-        boolean flag = foodService.change(food);
-        System.out.println(flag);
-
+        System.out.println(gson.toJson(list));
+        System.out.println(list.size());
     }
 }

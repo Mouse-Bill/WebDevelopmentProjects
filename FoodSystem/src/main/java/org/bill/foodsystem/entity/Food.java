@@ -10,6 +10,7 @@ public class Food {
     private String fdesc;
     private String fregtime;
     private Ftype ftype;
+    
     public Integer getFid() {
         return fid;
     }

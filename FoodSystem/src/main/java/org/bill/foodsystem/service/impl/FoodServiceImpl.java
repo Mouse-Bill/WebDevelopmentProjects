@@ -15,6 +15,7 @@ import java.util.Map;
 public class FoodServiceImpl implements FoodService {
     private FoodDao foodDao = new FoodDaoImpl();
     private FtypeDao ftypeDao = new FtypeDaoImpl();
+    
     @Override
     public List<Food> getAllWithFtype() {
         List<Food> list = foodDao.selectAll();
@@ -69,5 +70,13 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Food getByFid(int fid) {
         return foodDao.selectByFid(fid);
+    }
+
+    @Override
+    public List<Food> search(String keywords) {
+        if (keywords == null || keywords.trim().equals("")){
+            return getAllWithFtype();
+        }
+        return foodDao.selectByKeywords(keywords);
     }
 }
