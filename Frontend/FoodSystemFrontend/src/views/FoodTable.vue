@@ -4,7 +4,8 @@
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>食品管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <FoodAdder :user="user" ref="visiableDialog"></FoodAdder>
+    <FoodAdder :user="user" ref="addVisiableDialog"></FoodAdder>
+    <FoodEditor :food="food.selectedFood" ref="editVisiableDialog"></FoodEditor>
     <el-card class="main-card">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -18,7 +19,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="openDialog">添加食品</el-button>
+          <el-button type="primary" @click="openAdderDialog">添加食品</el-button>
         </el-col>
       </el-row>
 
@@ -32,7 +33,7 @@
         <el-table-column label="操作">
           <template v-slot="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" v-model="scope.row.Id" size="mini"><el-icon>
+            <el-button type="primary" v-model="scope.row.fid" size="mini" @click="handleEdit(scope.row.fid)"><el-icon>
                 <edit />
               </el-icon></el-button>
             <!-- 删除按钮 -->
@@ -47,7 +48,7 @@
       </el-table>
       <div style="margin-bottom: 30px;">
         <el-pagination v-model:currentPage="food.pagenum" :page-sizes="[10, 30, 50, 100]"
-          layout=" prev, pager, next, jumper,total, sizes," :total="400" @size-change="handleSizeChange"
+          layout=" prev, pager, next, jumper,total, sizes," :total="food.total" @size-change="handleSizeChange"
           @current-change="handleCurrentChange" />
       </div>
     </el-card>
@@ -58,22 +59,12 @@
 import { reactive } from 'vue';
 import http from '../utils/http/http';
 import FoodAdder from '../components/Home/FoodAdder.vue'
+import FoodEditor from '../components/Home/FoodEditor.vue'
 import { ref } from 'vue';
 
-const visiableDialog = ref(null)
+const addVisiableDialog = ref(null)
+const editVisiableDialog = ref(null)
 
-function openDialog() {
-  visiableDialog.value.dialogVisble = true
-  console.log(visiableDialog.value.dialogVisble);
-}
-
-const user = reactive({
-  name: '张三',
-  age: 20
-})
-
-
-console.log("setup");
 // const queryInfo = reactive({
 //   query: '',
 //   pagenum: 1,
@@ -82,13 +73,16 @@ console.log("setup");
 
 var pagenum = reactive(1);
 var pagesize = reactive(10);
-var food = reactive({
+const food = reactive({
   list: [],
   total: 0,
   pagenum: 1,
   pagesize: 10,
+  total: 0,
+  selectedFood: {},
 });
 
+const total = reactive(0);
 
 // var foodList = [
 //   {
@@ -163,16 +157,21 @@ var food = reactive({
 //   }
 // ];
 
-const total = reactive(0);
 
 
 console.log(food.list);
+
+function openAdderDialog() {
+  addVisiableDialog.value.dialogVisble = true
+  console.log(addVisiableDialog.value.dialogVisble);
+}
 
 const getFoodList = async () => {
   const data = await http.get('/food/getall');
   if (data.status === 200) {
     food.list = data.data.list
   }
+  food.total = food.list.length;
   console.log(food.list);
 };
 
@@ -193,6 +192,15 @@ const handleSizeChange = (val) => {
 const handleCurrentChange = (val) => {
   food.pagenum = val;
 };
+
+const handleEdit = (id) => {
+  food.selectedFood = food.list.find(item => item.fid === id);
+  console.log(id);
+  console.log("father"+food.selectedFood);
+  editVisiableDialog.value.dialogVisble = true
+};
+
+
 
 const deleteFood = async (id) => {
   const { data: { meta } } = await http.delete(`/food/${id}`);

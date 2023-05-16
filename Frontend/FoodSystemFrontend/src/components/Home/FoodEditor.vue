@@ -1,5 +1,6 @@
 <template>
-  <el-dialog title="提示" v-model="dialogVisble" width="30%">
+  <el-dialog title="修改食品" v-model="dialogVisble" width="30%">
+    {{ data.ruleForm  }}
     <span>
       <el-form :model="data.ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="foodadd-ruleForm">
         <el-form-item label="食品名称" prop="fname">
@@ -7,7 +8,7 @@
         </el-form-item>
 
         <el-form-item label="食品类型" prop="ftype">
-          <el-select v-model="data.ruleForm.ftype" placeholder="请选择食品类型" value-key="tid">
+          <el-select v-model="data.ruleForm.ftype" placeholder="请选择食品类型" value-key="tid" >
             <el-option v-for="item in data.foodType" :key="item.tid" :label="item.tname"
               :value="item"></el-option>
           </el-select>
@@ -27,7 +28,7 @@
       <span class="dialog-footer">
         <!-- <el-button @click="close">取 消</el-button>
         <el-button type="primary" @click="confirm">确 定</el-button> -->
-        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+        <el-button type="primary" @click="submitUpdate('ruleForm')">确定</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </span>
     </template>
@@ -40,14 +41,17 @@ import { ElMessageBox } from 'element-plus'
 import { reactive } from 'vue';
 import http from '../../utils/http/http';
 import { getCurrentInstance } from 'vue'
+import { watch } from "vue"
+
+let {ctx:that, proxy} = getCurrentInstance();
 
 const ruleForm = ref(null)
 
 const data = reactive(
   {
     ruleForm: {
+      fid:'',
       fname: '',
-      fpic:'',
       fprice: '',
       ftype: {},
       fdesc: ''
@@ -73,29 +77,29 @@ const data = reactive(
 
 
 
-const getFoodType = async () => {
-  const res = await http.get('/ftype/getall');
-  if (res.status === 200) {
-    const array = [];
-    for (let key in res.data.list) {
-      array.push({ tid: res.data.list[key].tid, tname: res.data.list[key].tname })
-    }
-    data.foodType = array;
-  }
-  console.log(data.foodType);
-};
+// const getFoodType = async () => {
+//   const res = await http.get('/ftype/getall');
+//   if (res.status === 200) {
+//     const array = [];
+//     for (let key in res.data.list) {
+//       array.push({ tid: res.data.list[key].tid, tname: res.data.list[key].tname })
+//     }
+//     data.foodType = array;
+//   }
+//   console.log(data.foodType);
+// };
 
-getFoodType()
+// getFoodType()
 
-const submitForm = (formName) => {
+const submitUpdate = (formName) => {
   if (ruleForm.value) {
     ruleForm.value.validate((valid) => {
       if (valid) {
-        http.post('/food/add', data.ruleForm).then(res => {
+        http.post('/food/update', data.ruleForm).then(res => {
           if (res.status === 200) {
             console.log(res.data);
             if (res.data.isOK) {
-              ElMessageBox.confirm('添加成功', '提示', {
+              ElMessageBox.confirm('修改成功', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'success'
@@ -109,7 +113,7 @@ const submitForm = (formName) => {
                 dialogVisble.value = false
               });
             } else {
-              ElMessageBox.confirm('添加失败', '提示', {
+              ElMessageBox.confirm('修改失败', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'error'
@@ -144,7 +148,31 @@ const dialogVisble = ref(false)
 //   }
 // })
 // 或者
-const props = defineProps(['user'])
+const props = defineProps(['food'])
+
+watch(() => props.food, (newVal, oldVal) => {
+  console.log(newVal);
+  console.log(oldVal);
+  if (newVal) {
+    dialogVisble.value = true
+    data.ruleForm.fname = newVal.fname
+    data.ruleForm.fprice = newVal.fprice.toString()
+    data.ruleForm.ftype = { tid: newVal.ftype.tid, tname: newVal.ftype.tname }
+    data.ruleForm.fdesc = newVal.fdesc
+    data.ruleForm.fid = newVal.fid
+  }
+})
+
+// console.log(props.food);
+// data.ruleForm.fname = props.food.fname
+// data.ruleForm.fprice = props.food.fprice.toString()
+// // data.ruleForm.ftype = { tid: props.food.ftype.tid, tname: props.food.ftype.tname}
+// data.ruleForm.fdesc = props.food.fdesc
+//console.log(data.ruleForm);
+
+
+
+
 
 function confirm() {
   ElMessageBox.confirm('确定关闭吗?').then(() => {
