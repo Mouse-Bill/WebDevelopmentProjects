@@ -1,6 +1,8 @@
 package org.bill.foodsystem.util.db;
 
+import java.lang.reflect.Array;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class BaseDao {
@@ -41,7 +43,7 @@ public class BaseDao {
         } else {
             try {
                 connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-                System.out.println("Connection Success!");
+                // System.out.println("Connection Success!");
             } catch (Exception e) {
                 open();
             }
@@ -55,11 +57,14 @@ public class BaseDao {
         }
         try {
             preparedStatement = connection.prepareStatement(sql);
+            
             if (params != null) {
                 for (int i = 0; i < params.length; ++i) {
+                    // System.out.println(i + "in cps"+params[i]);
                     preparedStatement.setObject(i + 1, params[i]);
                 }
             }
+            // System.out.println(preparedStatement);
         } catch (Exception e) {
             e.printStackTrace();
         }
