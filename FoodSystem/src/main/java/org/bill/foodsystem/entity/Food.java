@@ -21,7 +21,11 @@ public class Food {
         if (tid != null) {
             return tid;
         }else {
-            return ftype.getTid();
+            if (ftype != null) {
+                return ftype.getTid();
+            }else {
+                return null;
+            }
         }
     }
     public void setTid(Integer tid) {

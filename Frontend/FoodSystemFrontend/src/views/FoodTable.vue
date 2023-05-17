@@ -4,9 +4,10 @@
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>食品管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <FoodAdder :user="user" ref="addDialog"></FoodAdder>
-    <FoodEditor :food="food.selectedFood" ref="editDialog"></FoodEditor>
-    <ImageUploader ref="uploadDialog"></ImageUploader>
+    <FoodAdder ref="addDialog" @updatefood="getFoodList"></FoodAdder>
+    <FoodEditor ref="editDialog" @updatefood="updatefood"></FoodEditor>
+    <ImageUploader ref="uploadDialog" @updatefood="getFoodList"></ImageUploader>
+
     <el-card class="main-card">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -22,7 +23,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="openAdderDialog">添加食品</el-button>
+          <el-button type="primary" @click="openAdderDialog($event)">添加食品</el-button>
         </el-col>
       </el-row>
 
@@ -31,7 +32,8 @@
         <el-table-column prop="fname" label="名字" width="180" />
         <el-table-column prop="fpic" label="图片" width="180">
           <template v-slot="scope">
-            <img :src="'/api/foods/' + scope.row.fpic" alt="" width="100" height="100">
+            <img w-full :src="'/api/foods/' + scope.row.fpic" alt="" width="100" height="100"
+              onerror="this.src = '/api/foods/default.svg'">
           </template></el-table-column>
         <el-table-column prop="fprice" label="价格" width="180" />
         <el-table-column prop="ftype.tname" label="类型" width="180" />
@@ -43,7 +45,8 @@
                 <edit />
               </el-icon></el-button>
             <!-- 图片 -->
-            <el-button type="primary" v-model="scope.row.fid" size="mini" @click="handleImageUpload(scope.row.fid)"><el-icon>
+            <el-button type="primary" v-model="scope.row.fid" size="mini"
+              @click="handleImageUpload(scope.row.fid)"><el-icon>
                 <picture-filled />
               </el-icon></el-button>
             <!-- 删除按钮 -->
@@ -72,11 +75,13 @@ import http from '../utils/http/http';
 import FoodAdder from '../components/Home/FoodAdder.vue'
 import FoodEditor from '../components/Home/FoodEditor.vue'
 import ImageUploader from '../components/Home/ImageUploader.vue';
+import TestDialog from '../components/Home/TestDialog.vue';
 import { ref } from 'vue';
 
 const addDialog = ref(null)
 const editDialog = ref(null)
 const uploadDialog = ref(null)
+
 
 const queryInfo = reactive({
   query: '',
@@ -173,9 +178,14 @@ const total = reactive(0);
 
 console.log(food.list);
 
-function openAdderDialog() {
-  addDialog.value.dialogVisble = true
-  console.log(addDialog.value.dialogVisble);
+function openAdderDialog(event) {
+  event.target.blur();
+  if (event.target.nodeName == "SPAN") {
+    event.target.parentNode.blur();
+  }
+  addDialog.value.componentVisible = true
+  console.log(addDialog.value.componentVisible);
+  addDialog.value.data.foodList = food.list;
 }
 
 const getFoodList = async () => {
@@ -205,11 +215,17 @@ const handleCurrentChange = (val) => {
   food.pagenum = val;
 };
 
+
 const handleEdit = (id) => {
   food.selectedFood = food.list.find(item => item.fid === id);
-  console.log(id);
-  console.log("father" + food.selectedFood);
-  editDialog.value.dialogVisble = true
+  editDialog.value.data.ruleForm = Object.assign({}, food.selectedFood);
+  delete (editDialog.value.data.ruleForm.tid)
+
+  editDialog.value.data.sharedFood = food.selectedFood;
+  delete (editDialog.value.data.sharedFood.tid)
+
+  editDialog.value.componentVisible = true
+  console.log(food.list);
 };
 
 
@@ -244,15 +260,24 @@ const searchFoodList = async () => {
 };
 
 const handleImageUpload = (id) => {
-  console.log(id);
   food.selectedFood = food.list.find(item => item.fid === id);
-  console.log(food.selectedFood);
-  uploadDialog.value.dialogVisble = true
-  console.log("up: "+uploadDialog.value.dialogVisble);
-  console.log("edit: "+editDialog.value.dialogVisble);
+  // console.log(food.selectedFood);
+  uploadDialog.value.componentVisible = true
+  uploadDialog.value.data.food = food.selectedFood;
+  // console.log("P upD ref:");
+  // console.log(uploadDialog);
+  // console.log("edit: "+editDialog.value.dialogVisble);
 
 };
 
+const updatefood = (food) => {
+  getFoodList();
+  // uploadDialog.value.componentVisible = true
+  // console.log("P upD ref:");
+  // console.log(uploadDialog);
+  // console.log("edit: "+editDialog.value.dialogVisble);
+
+};
 </script>
 
 <style scoped>

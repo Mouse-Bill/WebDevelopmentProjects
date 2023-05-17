@@ -76,10 +76,9 @@ public class LoginServlet extends HttpServlet {
                 }
                 map.put("isOK", true);
                 HttpSession session = request.getSession();
-                session.setAttribute("loginUser", user);
-                response.addHeader("token", session.getId());
             }
 
+            System.out.println("LoginServlet: " + new Gson().toJson(map));
             response.getWriter().write(new Gson().toJson(map));
         }
     }

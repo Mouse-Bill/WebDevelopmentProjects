@@ -36,6 +36,7 @@ public class JWT {
             Date exp = new Date(expMillis);
             builder.setExpiration(exp);
         }
+        System.out.println(builder.compact());
         return builder.compact();
     }
 

@@ -28,7 +28,7 @@ public class UpdateServlet extends HttpServlet {
         String json = br.readLine();
         System.out.println(json);
         Food food = gson.fromJson(json, Food.class);
-        System.out.println(food.getFid()+food.getFname()+food.getFprice()+food.getFtype().getTid());
+        //System.out.println(food.getFid()+food.getFname()+food.getFprice()+food.getFtype().getTid());
         boolean isOK = foodService.change(food);
         map.put("isOK", isOK);
         resp.getWriter().write(new Gson().toJson(map));

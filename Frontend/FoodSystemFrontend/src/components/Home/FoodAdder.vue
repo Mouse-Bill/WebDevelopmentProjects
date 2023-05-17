@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="提示" v-model="dialogVisble" width="30%">
+  <el-dialog title="提示" v-model="componentVisible" width="30%">
     <span>
       <el-form :model="data.ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="foodadd-ruleForm">
         <el-form-item label="食品名称" prop="fname">
@@ -25,8 +25,6 @@
     </span>
     <template #footer>
       <span class="dialog-footer">
-        <!-- <el-button @click="close">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button> -->
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </span>
@@ -42,6 +40,8 @@ import http from '../../utils/http/http';
 import { getCurrentInstance } from 'vue'
 
 const ruleForm = ref(null)
+
+const emit = defineEmits(['updatefood'])
 
 const data = reactive(
   {
@@ -67,10 +67,15 @@ const data = reactive(
         { required: true, message: '请填写活动形式', trigger: 'blur' }
       ]
     },
-    foodType: []
+    foodType: [],
+    foodList:[]
   }
 )
 
+
+const componentVisible = ref(false)
+
+const props = defineProps(['user'])
 
 
 const getFoodType = async () => {
@@ -95,6 +100,7 @@ const submitForm = (formName) => {
           if (res.status === 200) {
             console.log(res.data);
             if (res.data.isOK) {
+              emit('updatefood')
               ElMessageBox.confirm('添加成功', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -102,11 +108,11 @@ const submitForm = (formName) => {
               }).then(() => {
                 console.log('确定');
                 ruleForm.value.resetFields();
-                dialogVisble.value = false
+                componentVisible.value = false
               }).catch(() => {
                 console.log('取消');
                 ruleForm.value.resetFields();
-                dialogVisble.value = false
+                componentVisible.value = false
               });
             } else {
               ElMessageBox.confirm('添加失败', '提示', {
@@ -116,11 +122,11 @@ const submitForm = (formName) => {
               }).then(() => {
                 console.log('确定');
                 ruleForm.value.resetFields();
-                dialogVisble.value = false
+                componentVisible.value = false
               }).catch(() => {
                 console.log('取消');
                 ruleForm.value.resetFields();
-                dialogVisble.value = false
+                componentVisible.value = false
               });
             }
           }
@@ -133,32 +139,15 @@ const submitForm = (formName) => {
   }
 }
 
-// 定义控制弹窗显隐的变量
-const dialogVisble = ref(false)
-
-// 接受父组件传过来的值
-// const props = defineProps({
-//   user: {
-//     type: Object,
-//     default: {}
-//   }
-// })
-// 或者
-const props = defineProps(['user'])
-
-function confirm() {
-  ElMessageBox.confirm('确定关闭吗?').then(() => {
-    console.log('你点击了确定按钮')
-    dialogVisble.value = false
-  }).catch(() => { })
+const resetForm = (formName) => {
+  if (ruleForm.value) {
+    ruleForm.value.resetFields();
+  }
 }
 
-function close() {
-  dialogVisble.value = false
-}
 
 // 将变量暴露出来
 defineExpose({
-  dialogVisble
+  componentVisible,data
 })
 </script>

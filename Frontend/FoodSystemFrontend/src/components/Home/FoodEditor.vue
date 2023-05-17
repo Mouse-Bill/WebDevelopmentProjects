@@ -1,6 +1,5 @@
 <template>
-  <el-dialog title="修改食品" v-model="dialogVisble" width="30%">
-    {{ data.ruleForm  }}
+  <el-dialog title="修改食品" v-model="componentVisible" width="30%">
     <span>
       <el-form :model="data.ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="foodadd-ruleForm">
         <el-form-item label="食品名称" prop="fname">
@@ -8,12 +7,11 @@
         </el-form-item>
 
         <el-form-item label="食品类型" prop="ftype">
-          <el-select v-model="data.ruleForm.ftype" placeholder="请选择食品类型" value-key="tid" >
-            <el-option v-for="item in data.foodType" :key="item.tid" :label="item.tname"
-              :value="item"></el-option>
+          <el-select v-model="data.ruleForm.ftype" placeholder="请选择食品类型" value-key="tid">
+            <el-option v-for="item in data.foodType" :key="item.tid" :label="item.tname" :value="item"></el-option>
           </el-select>
         </el-form-item>
-        
+
         <el-form-item label="食品价格" prop="fprice">
           <el-input v-model="data.ruleForm.fprice"></el-input>
         </el-form-item>
@@ -26,8 +24,6 @@
     </span>
     <template #footer>
       <span class="dialog-footer">
-        <!-- <el-button @click="close">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button> -->
         <el-button type="primary" @click="submitUpdate('ruleForm')">确定</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </span>
@@ -43,14 +39,24 @@ import http from '../../utils/http/http';
 import { getCurrentInstance } from 'vue'
 import { watch } from "vue"
 
-let {ctx:that, proxy} = getCurrentInstance();
+let { ctx: that, proxy } = getCurrentInstance();
+
+// 定义控制弹窗显隐的变量
+const componentVisible = ref(false)
+
+// 接受父组件传过来的值
+// const props = defineProps(['food'])
+
+// 向父组件发送事件
+const emit = defineEmits(['updatefood'])
+
 
 const ruleForm = ref(null)
 
 const data = reactive(
   {
     ruleForm: {
-      fid:'',
+      fid: '',
       fname: '',
       fprice: '',
       ftype: {},
@@ -71,7 +77,9 @@ const data = reactive(
         { required: true, message: '请填写活动形式', trigger: 'blur' }
       ]
     },
-    foodType: []
+    foodType: [],
+    sharedFood: {}
+
   }
 )
 
@@ -86,12 +94,12 @@ const getFoodType = async () => {
     }
     data.foodType = array;
   }
-  console.log(data.foodType);
+  //console.log(data.foodType);
 };
 
 getFoodType()
 
-const submitUpdate = (formName) => {
+const submitUpdate = () => {
   if (ruleForm.value) {
     ruleForm.value.validate((valid) => {
       if (valid) {
@@ -99,32 +107,26 @@ const submitUpdate = (formName) => {
           if (res.status === 200) {
             console.log(res.data);
             if (res.data.isOK) {
-              ElMessageBox.confirm('修改成功', '提示', {
+              emit('updatefood', data.ruleForm)
+              ElMessageBox.alert('修改成功', '提示', {
                 confirmButtonText: '确定',
-                cancelButtonText: '取消',
                 type: 'success'
               }).then(() => {
+                data.sharedFood.fprice = data.ruleForm.fprice
+                data.sharedFood.ftype = data.ruleForm.ftype
+                data.sharedFood.fdesc = data.ruleForm.fdesc
+                data.sharedFood.fname = data.ruleForm.fname
                 console.log('确定');
-                ruleForm.value.resetFields();
-                dialogVisble.value = false
-              }).catch(() => {
-                console.log('取消');
-                ruleForm.value.resetFields();
-                dialogVisble.value = false
+                componentVisible.value = false
               });
             } else {
               ElMessageBox.confirm('修改失败', '提示', {
                 confirmButtonText: '确定',
-                cancelButtonText: '取消',
                 type: 'error'
               }).then(() => {
                 console.log('确定');
                 ruleForm.value.resetFields();
-                dialogVisble.value = false
-              }).catch(() => {
-                console.log('取消');
-                ruleForm.value.resetFields();
-                dialogVisble.value = false
+                componentVisible.value = false
               });
             }
           }
@@ -137,55 +139,43 @@ const submitUpdate = (formName) => {
   }
 }
 
-// 定义控制弹窗显隐的变量
-const dialogVisble = ref(false)
 
-// 接受父组件传过来的值
-// const props = defineProps({
-//   user: {
-//     type: Object,
-//     default: {}
+
+// watch(() => props.food, (newVal, oldVal) => {
+//   console.log(newVal);
+//   console.log(oldVal);
+//   if (newVal) {
+//     data.ruleForm.fname = newVal.fname
+//     data.ruleForm.fprice = newVal.fprice.toString()
+//     data.ruleForm.ftype = { tid: newVal.ftype.tid, tname: newVal.ftype.tname }
+//     data.ruleForm.fdesc = newVal.fdesc
+//     data.ruleForm.fid = newVal.fid
 //   }
 // })
-// 或者
-const props = defineProps(['food'])
 
-watch(() => props.food, (newVal, oldVal) => {
-  console.log(newVal);
-  console.log(oldVal);
-  if (newVal) {
-    data.ruleForm.fname = newVal.fname
-    data.ruleForm.fprice = newVal.fprice.toString()
-    data.ruleForm.ftype = { tid: newVal.ftype.tid, tname: newVal.ftype.tname }
-    data.ruleForm.fdesc = newVal.fdesc
-    data.ruleForm.fid = newVal.fid
-  }
-})
-
-// console.log(props.food);
-// data.ruleForm.fname = props.food.fname
-// data.ruleForm.fprice = props.food.fprice.toString()
-// // data.ruleForm.ftype = { tid: props.food.ftype.tid, tname: props.food.ftype.tname}
-// data.ruleForm.fdesc = props.food.fdesc
-//console.log(data.ruleForm);
-
-
+// watch(() => data.ruleForm, (newVal, oldVal) => {
+//   console.log(newVal);
+//   console.log(oldVal);
+// }, { deep: true, immediate: true })
 
 
 
 function confirm() {
   ElMessageBox.confirm('确定关闭吗?').then(() => {
     console.log('你点击了确定按钮')
-    dialogVisble.value = false
+    componentVisible.value = false
   }).catch(() => { })
 }
 
-function close() {
-  dialogVisble.value = false
-}
+// const handleClose = (done) => {
+//   // data.ruleForm = data.staticFood
+//   console.log(data.ruleForm);
+//   console.log(data.staticFood);
+//   done()
+// }
 
 // 将变量暴露出来
 defineExpose({
-  dialogVisble
+  componentVisible, data
 })
 </script>

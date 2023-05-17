@@ -42,7 +42,7 @@
                           </el-icon>
                           <span>首页</span>
                       </el-menu-item>
-                      <el-sub-menu index="1">
+                      <!-- <el-sub-menu index="1">
                           <template #title>
                               <el-icon>
                                   <Setting />
@@ -50,13 +50,13 @@
                               <span>系统设置</span>
                           </template>
                           <el-menu-item index="2-1">权限管理</el-menu-item>
-                      </el-sub-menu>
-                      <el-menu-item index="/user/list" @click="saveActiveNav('/user/list')">
+                      </el-sub-menu> -->
+                      <!-- <el-menu-item index="/user/list" @click="saveActiveNav('/user/list')">
                           <el-icon>
                               <user />
                           </el-icon>
                           <span>用户管理</span>
-                      </el-menu-item>
+                      </el-menu-item> -->
                   </el-menu>
               </el-aside>
               <el-container>

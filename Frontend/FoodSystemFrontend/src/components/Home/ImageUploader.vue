@@ -1,18 +1,45 @@
 <template>
-  <el-dialog title="上传/修改图片" v-model="dialogVisble" width="30%">
-    <template>
-      <p>hhhhhp</p>
-      <!-- <el-upload class="avatar-uploader" action=""
-        :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :limit="1">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-        <el-icon v-else class="avatar-uploader-icon">
-          <Plus />
-        </el-icon>
-      </el-upload> -->
-    </template>
+  <el-dialog title="上传/修改图片" v-model="componentVisible" width="30%">
+    <!-- 虚线圆角矩形框 -->
+    <div style="text-align: left; padding: 1%;">当前图片预览: </div>
+    <div style="border: 1px dashed #409EFF; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+      <img w-full :src="'/api/foods/'+data.food.fpic" alt="" style="width: 100%;" />
+    </div>
+    <div style="text-align: left; padding: 1%;">上传图片: </div>
+    <el-upload ref="upload" class="upload-demo" drag action="" multiple:false :limit="1" :auto-upload="false"
+      list-type="picture" accept="image/png, image/jpeg, image/jpg" :http-request="uploadFile">
+      <el-icon size="100px" color="#409EFC"><upload-filled /></el-icon>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+      <template #tip>
+        <div style="text-align: left; padding: 1%; margin-top: 2%;">上传图片预览: </div>
+      </template>
+      <template #file="{ file }" style="padding-top: -1%;">
+        <div>
+          <span>
+            <img style="width:100%;" :src="file.url" alt="" />
+            <span @click="handlePictureCardPreview(file)" style="margin-right: 10%;">
+              <el-icon><zoom-in /></el-icon>
+            </span>
+            <span @click="handleRemove()">
+              <el-icon>
+                <Delete />
+              </el-icon>
+            </span>
+          </span>
+        </div>
+      </template>
+    </el-upload>
+
+    <el-dialog v-model="previewVisible">
+      <img w-full :src="previewFile.url" alt="Preview Image" style="width: 100%;" />
+    </el-dialog>
+
+    <el-button style="margin-top: 10px;" size="small" type="success" @click="onSubmit()">上传到服务器</el-button>
 
   </el-dialog>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -22,187 +49,120 @@ import http from '../../utils/http/http';
 import { getCurrentInstance } from 'vue'
 import { watch } from "vue"
 
+// 定义控制整个组件显隐的变量
+const componentVisible = ref(false)
+// 预览显示
+const previewVisible = ref(false)
+
+const emit = defineEmits(['updatefood'])
+
+const upload = ref(null)
+
 let { ctx: that, proxy } = getCurrentInstance();
 
+const file = reactive({
+  url: ''
+})
 
-import { genFileId } from 'element-plus'
-
-const imageUrl = ref('')
-
+const previewFile = reactive({
+  url: ''
+})
 
 
 // const ruleForm = ref(null)
 
-// const data = reactive(
-//   {
-//     ruleForm: {
-//       fid: '',
-//       fname: '',
-//       fprice: '',
-//       ftype: {},
-//       fdesc: ''
-//     },
-//     rules: {
-//       fname: [
-//         { required: true, message: '请输入食品名称', trigger: 'blur' },
-//         { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-//       ],
-//       ftype: [
-//         { required: true, message: '请选择食品类型', trigger: 'change' }
-//       ],
-//       fprice: [
-//         { required: true, message: '请填写食品价格', trigger: 'blur' }
-//       ],
-//       fdesc: [
-//         { required: true, message: '请填写活动形式', trigger: 'blur' }
-//       ]
-//     },
-//     foodType: []
-//   }
-// )
-
-
-
-// const getFoodType = async () => {
-//   const res = await http.get('/ftype/getall');
-//   if (res.status === 200) {
-//     const array = [];
-//     for (let key in res.data.list) {
-//       array.push({ tid: res.data.list[key].tid, tname: res.data.list[key].tname })
-//     }
-//     data.foodType = array;
-//   }
-//   console.log(data.foodType);
-// };
-
-// getFoodType()
-
-// const submitUpdate = (formName) => {
-//   if (ruleForm.value) {
-//     ruleForm.value.validate((valid) => {
-//       if (valid) {
-//         http.post('/food/update', data.ruleForm).then(res => {
-//           if (res.status === 200) {
-//             console.log(res.data);
-//             if (res.data.isOK) {
-//               ElMessageBox.confirm('修改成功', '提示', {
-//                 confirmButtonText: '确定',
-//                 cancelButtonText: '取消',
-//                 type: 'success'
-//               }).then(() => {
-//                 console.log('确定');
-//                 ruleForm.value.resetFields();
-//                 dialogVisble.value = false
-//               }).catch(() => {
-//                 console.log('取消');
-//                 ruleForm.value.resetFields();
-//                 dialogVisble.value = false
-//               });
-//             } else {
-//               ElMessageBox.confirm('修改失败', '提示', {
-//                 confirmButtonText: '确定',
-//                 cancelButtonText: '取消',
-//                 type: 'error'
-//               }).then(() => {
-//                 console.log('确定');
-//                 ruleForm.value.resetFields();
-//                 dialogVisble.value = false
-//               }).catch(() => {
-//                 console.log('取消');
-//                 ruleForm.value.resetFields();
-//                 dialogVisble.value = false
-//               });
-//             }
-//           }
-//         })
-//       } else {
-//         console.log('error submit!!');
-//         return false;
-//       }
-//     });
-//   }
-// }
-
-// 定义控制弹窗显隐的变量
-const dialogVisble = ref(false)
-
-// 接受父组件传过来的值
-// const props = defineProps({
-//   user: {
-//     type: Object,
-//     default: {}
-//   }
-// })
-// 或者
-const props = defineProps(['food'])
-
-watch(() => props.food, (newVal, oldVal) => {
-  // console.log(newVal);
-  // console.log(oldVal);
-  if (newVal) {
-    data.ruleForm.fname = newVal.fname
-    data.ruleForm.fprice = newVal.fprice.toString()
-    data.ruleForm.ftype = { tid: newVal.ftype.tid, tname: newVal.ftype.tname }
-    data.ruleForm.fdesc = newVal.fdesc
-    data.ruleForm.fid = newVal.fid
+const data = reactive(
+  {
+    food: []
   }
-})
-
-// console.log(props.food);
-// data.ruleForm.fname = props.food.fname
-// data.ruleForm.fprice = props.food.fprice.toString()
-// // data.ruleForm.ftype = { tid: props.food.ftype.tid, tname: props.food.ftype.tname}
-// data.ruleForm.fdesc = props.food.fdesc
-//console.log(data.ruleForm);
+)
 
 
 
-
-
-function confirm() {
-  ElMessageBox.confirm('确定关闭吗?').then(() => {
-    console.log('你点击了确定按钮')
-    dialogVisble.value = false
-  }).catch(() => { })
+const handlePictureCardPreview = (file) => {
+  previewVisible.value = true
+  previewFile.url = file.url
+  // console.log(file);
+  // console.log(file.url);
 }
 
-function close() {
-  dialogVisble.value = false
+const handleRemove = () => {
+  upload.value.clearFiles()
 }
+
+const onSubmit = () => {
+  upload.value.submit()
+}
+
+const uploadFile = async (val) => {
+  let formData = new FormData();
+  formData.append('file', val.file);
+  http.post('/img/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then(res => {
+    if (res.data.isOK) {
+      file.url = res.data.url
+      onUploadSuccess()
+    } else {
+      ElMessageBox.alert('上传失败', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          componentVisible.value = false
+          upload.value.clearFiles()
+        }
+      })
+    }
+  })
+
+
+}
+
+const onUploadSuccess = () => {
+  const dbUpdate = {
+    fid: data.food.fid,
+    fpic: file.url
+  }
+  http.post('/food/update', dbUpdate).then(res => {
+    if (res.data.isOK) {
+      emit('updatefood')
+      ElMessageBox.alert('上传成功', '提示', {
+        confirmButtonText: '确定',
+        type: 'success',
+        callback: action => {
+          componentVisible.value = false
+          upload.value.clearFiles()
+          data.food.fpic = file.url 
+        }
+      })
+    } else {
+      ElMessageBox.alert('上传失败', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          componentVisible.value = false
+          upload.value.clearFiles()
+        }
+      })
+    }
+  })
+}
+
 
 // 将变量暴露出来
 defineExpose({
-  dialogVisble
+  componentVisible,data
 })
 </script>
 
-<style scoped>
-.avatar-uploader .avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-</style>
+<style scoped></style>
 
 <style>
-.avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
+.el-upload-list {
+  margin: 0px;
 }
 
-.avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
+.el-upload-list--picture .el-upload-list__item {
+  margin-top: 0px;
 }
 </style>

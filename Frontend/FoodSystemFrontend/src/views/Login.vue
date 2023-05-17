@@ -63,7 +63,7 @@ const onSubmit = () => {
         console.log(res.headers.token);
         if (res.data.isOK) {
           // proxy.$commonJs.changeView('/home');
-          router.push("/home");
+          router.push("/home/index");
         } else {
           ElMessage.error(res.data.message);
         }

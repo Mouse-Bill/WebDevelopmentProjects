@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.*;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -37,6 +35,8 @@ public class ChangeServlet extends HttpServlet {
 
         boolean uploadIsOK = false;
 
+        Map<String, Object> map = new HashMap<String,Object>();
+
         while (it.hasNext()) {
             Part part = it.next();
             System.out.println(part.getContentType());
@@ -56,6 +56,8 @@ public class ChangeServlet extends HttpServlet {
                 System.out.println(pathAndFilename);
                 part.write(pathAndFilename);
 
+                map.put("url", newFilename);
+
                 uploadIsOK = new File(pathAndFilename).exists();
 
             }
@@ -63,8 +65,11 @@ public class ChangeServlet extends HttpServlet {
             System.out.println("---------------------");
 
         }
-
         System.out.println(uploadIsOK);
+
+        map.put("isOK", uploadIsOK);
+
+        response.getWriter().write(new Gson().toJson(map));
 
     }
 
