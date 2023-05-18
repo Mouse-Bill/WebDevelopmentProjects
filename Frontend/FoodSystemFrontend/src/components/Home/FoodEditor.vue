@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="修改食品" v-model="componentVisible" width="30%">
     <span>
-      <el-form :model="data.ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="foodadd-ruleForm">
+      <el-form :model="data.ruleForm" :rules="data.rules" ref="ruleForm" label-width="100px" class="foodadd-ruleForm">
         <el-form-item label="食品名称" prop="fname">
           <el-input v-model="data.ruleForm.fname"></el-input>
         </el-form-item>
@@ -25,7 +25,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="submitUpdate('ruleForm')">确定</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="resetForm()">重置</el-button>
       </span>
     </template>
   </el-dialog>
@@ -167,12 +167,9 @@ function confirm() {
   }).catch(() => { })
 }
 
-// const handleClose = (done) => {
-//   // data.ruleForm = data.staticFood
-//   console.log(data.ruleForm);
-//   console.log(data.staticFood);
-//   done()
-// }
+const resetForm = () => {
+  ruleForm.value.resetFields();
+}
 
 // 将变量暴露出来
 defineExpose({

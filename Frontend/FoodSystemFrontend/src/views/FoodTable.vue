@@ -35,23 +35,29 @@
             <img w-full :src="'/api/foods/' + scope.row.fpic" alt="" width="100" height="100"
               onerror="this.src = '/api/foods/default.svg'">
           </template></el-table-column>
-        <el-table-column prop="fprice" label="价格" width="180" />
-        <el-table-column prop="ftype.tname" label="类型" width="180" />
+        <el-table-column prop="fprice" label="价格" width="100" />
+        <el-table-column prop="ftype.tname" label="类型" width="120" />
         <el-table-column prop="fdesc" label="描述" />
         <el-table-column label="操作">
           <template v-slot="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" v-model="scope.row.fid" size="mini" @click="handleEdit(scope.row.fid)"><el-icon>
-                <edit />
-              </el-icon></el-button>
+            <el-tooltip effect="dark" content="编辑" placement="top" :enterable="false">
+              <el-button type="primary" v-model="scope.row.fid" size="mini" @click="handleEdit(scope.row.fid, $event)"
+                style="margin: 1%; "><el-icon>
+                  <edit />
+                </el-icon></el-button>
+            </el-tooltip>
             <!-- 图片 -->
-            <el-button type="primary" v-model="scope.row.fid" size="mini"
-              @click="handleImageUpload(scope.row.fid)"><el-icon>
-                <picture-filled />
-              </el-icon></el-button>
+            <el-tooltip effect="dark" content="图片" placement="top" :enterable="false">
+              <el-button type="primary" v-model="scope.row.fid" size="mini"
+                @click="handleImageUpload(scope.row.fid, $event)" style="margin: 1%; "><el-icon>
+                  <picture-filled />
+                </el-icon></el-button>
+            </el-tooltip>
             <!-- 删除按钮 -->
             <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
-              <el-button type="danger" size="mini" v-model="scope.row.fid" @click="deleteFood(scope.row.fid)"><el-icon>
+              <el-button type="danger" size="mini" v-model="scope.row.fid" @click="deleteFood(scope.row.fid, $event)"
+                style="margin: 1%; "><el-icon>
                   <delete-filled />
                 </el-icon></el-button>
             </el-tooltip>
@@ -216,7 +222,11 @@ const handleCurrentChange = (val) => {
 };
 
 
-const handleEdit = (id) => {
+const handleEdit = (id, event) => {
+  event.target.blur();
+  if (event.target.nodeName == "SPAN") {
+    event.target.parentNode.blur();
+  }
   food.selectedFood = food.list.find(item => item.fid === id);
   editDialog.value.data.ruleForm = Object.assign({}, food.selectedFood);
   delete (editDialog.value.data.ruleForm.tid)
@@ -230,7 +240,11 @@ const handleEdit = (id) => {
 
 
 
-const deleteFood = async (id) => {
+const deleteFood = async (id, event) => {
+  event.target.blur();
+  if (event.target.nodeName == "SPAN") {
+    event.target.parentNode.blur();
+  }
   const data = await http.post('/food/delete', {
     fid: id
   }).then(res => {
@@ -259,7 +273,11 @@ const searchFoodList = async () => {
   }
 };
 
-const handleImageUpload = (id) => {
+const handleImageUpload = (id, event) => {
+  event.target.blur();
+  if (event.target.nodeName == "SPAN") {
+    event.target.parentNode.blur();
+  }
   food.selectedFood = food.list.find(item => item.fid === id);
   // console.log(food.selectedFood);
   uploadDialog.value.componentVisible = true

@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="提示" v-model="componentVisible" width="30%">
     <span>
-      <el-form :model="data.ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="foodadd-ruleForm">
+      <el-form :model="data.ruleForm" :rules="data.rules" ref="ruleForm" label-width="100px" class="foodadd-ruleForm">
         <el-form-item label="食品名称" prop="fname">
           <el-input v-model="data.ruleForm.fname"></el-input>
         </el-form-item>
@@ -64,7 +64,7 @@ const data = reactive(
         { required: true, message: '请填写食品价格', trigger: 'blur' }
       ],
       fdesc: [
-        { required: true, message: '请填写活动形式', trigger: 'blur' }
+        { required: true, message: '请填写食品描述', trigger: 'blur' }
       ]
     },
     foodType: [],
@@ -93,6 +93,7 @@ const getFoodType = async () => {
 getFoodType()
 
 const submitForm = (formName) => {
+  console.log(ruleForm.value);
   if (ruleForm.value) {
     ruleForm.value.validate((valid) => {
       if (valid) {

@@ -2,12 +2,13 @@
   <div>
       <el-container class="home-container">
           <!-- header -->
-          <el-header>
-              <el-row>
-                  <el-col :span="4">
-                      <p class="system-name">Food System</p>
+          <el-header class="el-header">
+              <el-row  class="el-row">
+                  <el-col class="el-col" :span="3">
+                      <!-- <p class="system-name">Food System</p> -->
+                      <p style="font-size: 25px; font-weight: bold">FoodSystem</p>
                   </el-col>
-                  <el-col :offset="12" :span="8" style="min-width: 150px">
+                  <el-col class="el-col" :offset="12" :span="8" style="min-width: 150px">
                       <el-dropdown style="float: right; margin: 20px 10px">
                           <span class="el-dropdown-link" style="color: #fff; cursor: pointer">
                               Admin &nbsp;&nbsp; <el-icon class="el-icon--right">
@@ -111,8 +112,16 @@ const logout = () => {
   background: #2661ef;
   padding: 0 10px;
   overflow: hidden;
+  height: 70px;
 }
 
+.el-row {
+  height: 100%;
+}
+
+.el-col {
+  height: 100%;
+}
 .system-name {
   color: #fff;
   font-size: 18px;
