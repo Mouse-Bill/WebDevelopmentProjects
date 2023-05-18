@@ -92,7 +92,6 @@ const resetForm = () => {
 
 .el-main {
   height: 80%;
-  background-image: url("../assets/img/bg.jpg");
   background-repeat: no-repeat;
   background-size: 100% 120%;
   background-position-y: bottom;

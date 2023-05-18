@@ -1,15 +1,8 @@
 package org.bill.foodsystem.filter;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
-import org.bill.foodsystem.entity.Food;
-import org.bill.foodsystem.service.FoodService;
-import org.bill.foodsystem.service.impl.FoodServiceImpl;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -17,15 +10,13 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.bill.foodsystem.util.jwt.JWT;
 
-public class CrossFilter implements Filter {
+public class CrossTokenFilter implements Filter {
 
-    public CrossFilter() {
+    public CrossTokenFilter() {
         
     }
 	public void destroy() {
@@ -33,7 +24,7 @@ public class CrossFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-		System.out.println("过滤器");
+		System.out.println("Filter");
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)resp;
 
@@ -58,7 +49,7 @@ public class CrossFilter implements Filter {
 		String requestURI = request.getRequestURI();
 		System.out.println("URI: "+ requestURI);
 
-		if ( requestURI.contains("login") || requestURI.contains("foods")) {
+		if ( requestURI.contains("login") || requestURI.contains("foods")||requestURI.contains("resources")) {
 			System.out.println("to login");
 			chain.doFilter(req, resp);
 		} else {

@@ -29,8 +29,8 @@
 
       <el-table :data="tableData()" style="margin-bottom: 10px;">
         <el-table-column prop="fid" label="ID" width="50" />
-        <el-table-column prop="fname" label="名字" width="180" />
-        <el-table-column prop="fpic" label="图片" width="180">
+        <el-table-column prop="fname" label="名字" width="150" />
+        <el-table-column prop="fpic" label="图片" width="150">
           <template v-slot="scope">
             <img w-full :src="'/api/foods/' + scope.row.fpic" alt="" width="100" height="100"
               onerror="this.src = '/api/foods/default.svg'">
