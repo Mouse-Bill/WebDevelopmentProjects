@@ -163,6 +163,9 @@ public class FoodDaoImpl implements FoodDao {
         if (keywords == null || keywords.equals("")){
             return null;
         } else {
+            if (params == null || params.length == 0) {
+                params = new Object[]{"fid", "fname", "fprice", "fdesc", "fregtime", "tname"};
+            }
             StringBuilder sql = new StringBuilder(
                     "SELECT * FROM food NATURAL JOIN ftype WHERE concat(");
             /// SELECT * FROM food NATURAL JOIN ftype WHERE concat(fid, fname, fprice, fdesc, fregtime, tname) LIKE ?
