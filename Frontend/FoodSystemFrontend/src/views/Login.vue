@@ -29,6 +29,7 @@
             </el-main>
         </el-container>
     </div>
+    <nest></nest>
 </template>
 
 
@@ -38,6 +39,8 @@ import userApi from "../api/user";
 import { reactive, ref, getCurrentInstance } from "vue";
 import { ElMessage } from "element-plus";
 import router from "../router/index";
+import nest from "../utils/canvas-nest.js";
+
 const { proxy } = getCurrentInstance();
 const form = reactive({
   username: "",
@@ -81,6 +84,10 @@ const resetForm = () => {
 };
 </script>
 
+
+
+
+
 <style scoped>
 .el-container {
   height: 800px;
@@ -104,4 +111,7 @@ const resetForm = () => {
   height: 200px;
   border-radius: 10px;
 }
+</style>
+
+<style>
 </style>
