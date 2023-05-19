@@ -1,34 +1,34 @@
 <template>
-    <div>
-        <el-container>
-            <el-header>
-                <div style="width:400px">
-                    <p style="float: left;">
-                        <el-icon color="#409EFF" :size="50">
-                            <ElementPlus />
-                        </el-icon>
-                    </p>
-                    <p style="float: left;font-size: 25px; font-weight: bold">FoodSystem</p>
-                </div>
-            </el-header>
-            <el-main>
-                <el-card class="login_card">
-                    <el-form :model="form" :rules="rules" ref="ruleFormRef" label-width="80px">
-                        <el-form-item label="Username:" prop="username">
-                            <el-input v-model="form.username" placeholder="Username" />
-                        </el-form-item>
-                        <el-form-item label="Password" prop="passwd">
-                            <el-input type="password" placeholder="Password" v-model="form.passwd" />
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="onSubmit()">Login</el-button>
-                            <el-button type="primary" @click="resetForm()">Reset</el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-card>
-            </el-main>
-        </el-container>
-    </div>
+  <div>
+    <el-container>
+      <el-header>
+        <div style="width:400px">
+          <p style="float: left;">
+            <el-icon color="#409EFF" :size="50">
+              <ElementPlus />
+            </el-icon>
+          </p>
+          <p style="float: left;font-size: 25px; font-weight: bold">FoodSystem</p>
+        </div>
+      </el-header>
+      <el-main>
+        <el-card class="login_card">
+          <el-form :model="form" :rules="rules" ref="ruleFormRef" label-width="80px">
+            <el-form-item label="Username:" prop="username">
+              <el-input v-model="form.username" placeholder="Username" />
+            </el-form-item>
+            <el-form-item label="Password" prop="passwd">
+              <el-input type="password" placeholder="Password" v-model="form.passwd" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit()">Login</el-button>
+              <el-button type="primary" @click="resetForm()">Reset</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 
@@ -38,6 +38,7 @@ import userApi from "../api/user";
 import { reactive, ref, getCurrentInstance } from "vue";
 import { ElMessage } from "element-plus";
 import router from "../router/index";
+
 const { proxy } = getCurrentInstance();
 const form = reactive({
   username: "",
@@ -58,14 +59,16 @@ const onSubmit = () => {
     if (valid) {
       const res = await userApi.login(form);
       if (res.data) {
-        sessionStorage.setItem("token", res.headers.token);
-        console.log(res.data);
-        console.log(res.headers.token);
         if (res.data.isOK) {
+          sessionStorage.setItem("token", res.headers.token);
+          sessionStorage.setItem("user", JSON.stringify(res.data.user));
+          console.log(res.data);
+          console.log(res.headers.token);
+          
           // proxy.$commonJs.changeView('/home');
           router.push("/home/index");
         } else {
-          ElMessage.error(res.data.message);
+          ElMessage.error("登陆失败！");
         }
       } else {
         ElMessage.error("服务器内部错误");

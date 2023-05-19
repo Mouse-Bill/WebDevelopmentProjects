@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 map.put("isOK", true);
-                HttpSession session = request.getSession();
+                map.put("user", user);
             }
 
             System.out.println("LoginServlet: " + new Gson().toJson(map));

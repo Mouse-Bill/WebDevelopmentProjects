@@ -12,7 +12,7 @@
           <el-col class="el-col" :offset="6" :span="8" style="min-width: 150px; clear:both;">
             <el-dropdown style="float: right; margin: 20px 10px">
               <span class="el-dropdown-link" style="color: #fff; cursor: pointer">
-                Admin &nbsp;&nbsp; <el-icon class="el-icon--right">
+                {{ user.nickname }} &nbsp;&nbsp; <el-icon class="el-icon--right">
                   <arrow-down />
                 </el-icon>
               </span>
@@ -79,6 +79,9 @@ import { onBeforeMount, ref } from 'vue';
 // import avatar from "../assets/img/avator.jpg"
 import { useRouter } from 'vue-router'
 const router = useRouter();
+const user = JSON.parse(sessionStorage.getItem("user"));
+
+
 // 挂载 DOM 之前
 onBeforeMount(() => {
   activePath.value = sessionStorage.getItem("activePath")
