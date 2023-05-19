@@ -11,5 +11,5 @@ public interface FoodDao {
     int update(Food food);
     int insert(Food food);
     int delete(int fid);
-    List<Food> selectByKeywords(String keywords);
+    List<Food> selectByKeywords(String keywords, Object... params);
 }

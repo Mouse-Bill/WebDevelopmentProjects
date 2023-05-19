@@ -10,7 +10,7 @@
 
     <el-card class="main-card">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="12">
           <!-- 搜索与添加区域 -->
           <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable>
             <template #append>
@@ -21,6 +21,14 @@
               </el-button>
             </template>
           </el-input>
+          <div>
+            <el-checkbox v-model="queryInfo.domain.fid" label="食品ID" size="large" />
+            <el-checkbox v-model="queryInfo.domain.fname" label="食品名称" size="large" />
+            <el-checkbox v-model="queryInfo.domain.fprice" label="食品价格" size="large" />
+            <el-checkbox v-model="queryInfo.domain.fdesc" label="食品描述" size="large" />
+            <el-checkbox v-model="queryInfo.domain.fregtime" label="食品添加时间" size="large" />
+            <el-checkbox v-model="queryInfo.domain.tname" label="食品类型" size="large" />
+          </div>
         </el-col>
         <el-col :span="4">
           <el-button type="primary" @click="openAdderDialog($event)">添加食品</el-button>
@@ -38,6 +46,7 @@
         <el-table-column prop="fprice" label="价格" width="100" />
         <el-table-column prop="ftype.tname" label="类型" width="120" />
         <el-table-column prop="fdesc" label="描述" />
+        <el-table-column prop="fregtime" label="添加时间" />
         <el-table-column label="操作">
           <template v-slot="scope">
             <!-- 修改按钮 -->
@@ -92,6 +101,14 @@ const uploadDialog = ref(null)
 
 const queryInfo = reactive({
   query: '',
+  domain: {
+    fid: false,
+    fname: false,
+    fprice: false,
+    fdesc: false,
+    fregtime: false,
+    tname: false
+  },
   pagenum: 1,
   pagesize: 10
 });
@@ -252,33 +269,34 @@ const deleteFood = async (id, event) => {
     type: 'warning'
   }).then(() => {
     const data = http.post('/food/delete', {
-    fid: id
-  }).then(res => {
-    if (res.status === 200 && res.data.isOK) {
+      fid: id
+    }).then(res => {
+      if (res.status === 200 && res.data.isOK) {
+        ElMessage({
+          message: '删除成功',
+          type: 'success'
+        })
+        getFoodList();
+      }
+    }).catch(err => {
       ElMessage({
-        message: '删除成功',
-        type: 'success'
+        message: '删除失败',
+        type: 'error'
       })
-      getFoodList();
-    }
-  }).catch(err => {
-    ElMessage({
-      message: '删除失败',
-      type: 'error'
     })
-  })
   }).catch(() => {
     ElMessage({
       type: 'info',
       message: '已取消删除'
     });
   });
-  
+
 };
 
 const searchFoodList = async () => {
-  const data = await http.get('/food/search', {
-    query: queryInfo.query
+  const data = await http.post('/food/search', {
+    query: queryInfo.query,
+    domain: queryInfo.domain
   });
   if (data.status === 200) {
     food.list = data.data.list;
