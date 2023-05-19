@@ -7,7 +7,7 @@
           <el-col :span="9"><el-icon color="#FFF" :size="52" style="width: min-content;float: left;">
               <ElementPlus />
             </el-icon>
-            <p style="font-weight: bold; float: left;">FoodSystem</p>
+            <p style="font-weight: bold; float: left; color: #fff;">FoodSystem</p>
           </el-col>
           <el-col class="el-col" :offset="6" :span="8" style="min-width: 150px; clear:both;">
             <el-dropdown style="float: right; margin: 20px 10px">
