@@ -4,10 +4,10 @@
 <head>
     <title>JSP - Hello World</title>
 </head>
-<body>
+<body style="font-family: sans-serif">
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="login.html">Login</a>
 </body>
 </html>

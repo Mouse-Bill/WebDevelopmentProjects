@@ -82,6 +82,7 @@ import FoodAdder from '../components/Home/FoodAdder.vue'
 import FoodEditor from '../components/Home/FoodEditor.vue'
 import ImageUploader from '../components/Home/ImageUploader.vue';
 import TestDialog from '../components/Home/TestDialog.vue';
+import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue';
 
 const addDialog = ref(null)
@@ -245,7 +246,12 @@ const deleteFood = async (id, event) => {
   if (event.target.nodeName == "SPAN") {
     event.target.parentNode.blur();
   }
-  const data = await http.post('/food/delete', {
+  ElMessageBox.confirm('此操作将永久删除该食品, 是否继续?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    const data = http.post('/food/delete', {
     fid: id
   }).then(res => {
     if (res.status === 200 && res.data.isOK) {
@@ -261,6 +267,13 @@ const deleteFood = async (id, event) => {
       type: 'error'
     })
   })
+  }).catch(() => {
+    ElMessage({
+      type: 'info',
+      message: '已取消删除'
+    });
+  });
+  
 };
 
 const searchFoodList = async () => {
