@@ -101,10 +101,10 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public List<Food> search(String keywords) {
-        if (keywords == null || keywords.trim().equals("")){
+    public List<Food> search(String keywords, Object... params) {
+        if (keywords == null || keywords.trim().equals("") || params == null || params.length == 0){
             return getAllWithFtype();
         }
-        return foodDao.selectByKeywords(keywords);
+        return foodDao.selectByKeywords(keywords, params);
     }
 }

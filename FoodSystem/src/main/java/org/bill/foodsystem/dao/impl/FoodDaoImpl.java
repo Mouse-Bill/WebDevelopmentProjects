@@ -159,12 +159,23 @@ public class FoodDaoImpl implements FoodDao {
     }
 
     @Override
-    public List<Food> selectByKeywords(String keywords) {
-        if (keywords == null || keywords.equals("")) {
+    public List<Food> selectByKeywords(String keywords, Object... params) {
+        if (keywords == null || keywords.equals("")){
             return null;
         } else {
             StringBuilder sql = new StringBuilder(
-                    "SELECT * FROM food NATURAL JOIN ftype WHERE concat(fid, fname, fprice, fdesc, fregtime, tname) LIKE ?");
+                    "SELECT * FROM food NATURAL JOIN ftype WHERE concat(");
+            /// SELECT * FROM food NATURAL JOIN ftype WHERE concat(fid, fname, fprice, fdesc, fregtime, tname) LIKE ?
+
+            for (int i = 0; i < params.length; i++) {
+                sql.append(params[i]);
+                if (i != params.length - 1) {
+                    sql.append(",");
+                }
+            }
+            sql.append(") LIKE ?");
+            System.out.println(sql);
+
             int count = -1;
             BaseDao baseDao = BaseDao.getInstance();
             baseDao.open();

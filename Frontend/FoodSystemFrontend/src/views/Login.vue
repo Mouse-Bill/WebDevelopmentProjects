@@ -61,14 +61,16 @@ const onSubmit = () => {
     if (valid) {
       const res = await userApi.login(form);
       if (res.data) {
-        sessionStorage.setItem("token", res.headers.token);
-        console.log(res.data);
-        console.log(res.headers.token);
         if (res.data.isOK) {
+          sessionStorage.setItem("token", res.headers.token);
+          sessionStorage.setItem("user", JSON.stringify(res.data.user));
+          console.log(res.data);
+          console.log(res.headers.token);
+          
           // proxy.$commonJs.changeView('/home');
           router.push("/home/index");
         } else {
-          ElMessage.error(res.data.message);
+          ElMessage.error("登陆失败！");
         }
       } else {
         ElMessage.error("服务器内部错误");
