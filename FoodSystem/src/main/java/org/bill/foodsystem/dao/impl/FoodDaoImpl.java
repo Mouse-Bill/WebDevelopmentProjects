@@ -143,7 +143,7 @@ public class FoodDaoImpl implements FoodDao {
         }
         if (fdesc != null) {
             sql.append("fdesc=?,");
-            param.add(fprice);
+            param.add(fdesc);
         }
         if (fid != null) {
             param.add(fid);
