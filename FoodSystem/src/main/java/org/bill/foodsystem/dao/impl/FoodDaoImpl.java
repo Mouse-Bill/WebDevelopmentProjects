@@ -122,8 +122,9 @@ public class FoodDaoImpl implements FoodDao {
         String fpic = food.getFpic();
         Double fprice = food.getFprice();
         Integer fid = food.getFid();
+        String fdesc = food.getFdesc();
         List<Object> param = new ArrayList<Object>();
-        System.out.println("tid: " + tid + " fname: " + fname + " fpic: " + fpic + " fprice: " + fprice);
+        System.out.println("tid: " + tid + " fname: " + fname + " fpic: " + fpic + " fprice: " + fprice + " fdesc: " + fdesc);
         if (tid != null) {
             sql.append("tid=?,");
             param.add(tid);
@@ -138,6 +139,10 @@ public class FoodDaoImpl implements FoodDao {
         }
         if (fprice != null) {
             sql.append("fprice=?,");
+            param.add(fprice);
+        }
+        if (fdesc != null) {
+            sql.append("fdesc=?,");
             param.add(fprice);
         }
         if (fid != null) {
