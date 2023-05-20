@@ -1,13 +1,21 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>JSP - Test JSP</title>
 </head>
-<body>
-<h1><%= "Hello World!" %>
+<body style="font-family: sans-serif">
+<h1><%= "Test JSP" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="test-jsp-object?test=hello">Test JSP Object</a>
+<br/>
+<p>Static & Dynamic Include Test</p>
+<%-- Static Include --%>
+<%@ include file="./static_include.jsp" %>
+<br/>
+<%-- Dynamic Include --%>
+<jsp:include page="./dynamic-include.jsp"/>
+<br/>
 </body>
 </html>
