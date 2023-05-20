@@ -13,7 +13,7 @@ public class BaseDao {
     private ResultSet resultSet;
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://db4free.net:3306/bltestdb?autoReconnect=true";
+    private static final String URL = "jdbc:mysql://db4free.net:3306/bltestdb?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
     private static final String USERNAME = "bill_test_admin";
     private static final String PASSWORD = "db4freeLHN2002";
 

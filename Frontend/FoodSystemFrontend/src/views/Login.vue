@@ -1,34 +1,35 @@
 <template>
-  <div>
-    <el-container>
-      <el-header>
-        <div style="width:400px">
-          <p style="float: left;">
-            <el-icon color="#409EFF" :size="50">
-              <ElementPlus />
-            </el-icon>
-          </p>
-          <p style="float: left;font-size: 25px; font-weight: bold">FoodSystem</p>
-        </div>
-      </el-header>
-      <el-main>
-        <el-card class="login_card">
-          <el-form :model="form" :rules="rules" ref="ruleFormRef" label-width="80px">
-            <el-form-item label="Username:" prop="username">
-              <el-input v-model="form.username" placeholder="Username" />
-            </el-form-item>
-            <el-form-item label="Password" prop="passwd">
-              <el-input type="password" placeholder="Password" v-model="form.passwd" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit()">Login</el-button>
-              <el-button type="primary" @click="resetForm()">Reset</el-button>
-            </el-form-item>
-          </el-form>
-        </el-card>
-      </el-main>
-    </el-container>
-  </div>
+    <div>
+        <el-container>
+            <el-header>
+                <div style="width:400px">
+                    <p style="float: left;">
+                        <el-icon color="#409EFF" :size="50">
+                            <ElementPlus />
+                        </el-icon>
+                    </p>
+                    <p style="float: left;font-size: 25px; font-weight: bold">FoodSystem</p>
+                </div>
+            </el-header>
+            <el-main>
+                <el-card class="login_card">
+                    <el-form :model="form" :rules="rules" ref="ruleFormRef" label-width="80px">
+                        <el-form-item label="Username:" prop="username">
+                            <el-input v-model="form.username" placeholder="Username" />
+                        </el-form-item>
+                        <el-form-item label="Password" prop="passwd">
+                            <el-input type="password" placeholder="Password" v-model="form.passwd" />
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="onSubmit()">Login</el-button>
+                            <el-button type="primary" @click="resetForm()">Reset</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-card>
+            </el-main>
+        </el-container>
+    </div>
+    <nest></nest>
 </template>
 
 
@@ -38,6 +39,7 @@ import userApi from "../api/user";
 import { reactive, ref, getCurrentInstance } from "vue";
 import { ElMessage } from "element-plus";
 import router from "../router/index";
+import nest from "../utils/canvas-nest.js";
 
 const { proxy } = getCurrentInstance();
 const form = reactive({
@@ -84,6 +86,10 @@ const resetForm = () => {
 };
 </script>
 
+
+
+
+
 <style scoped>
 .el-container {
   height: 800px;
@@ -107,4 +113,7 @@ const resetForm = () => {
   height: 200px;
   border-radius: 10px;
 }
+</style>
+
+<style>
 </style>
