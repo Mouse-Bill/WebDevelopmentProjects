@@ -10,14 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db9b6723-3c35-4e05-8095-2265c65de603" name="更改" comment="finish">
-      <change afterPath="$PROJECT_DIR$/../WebHomeWork12/src/main/java/Register.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../WebHomeWork12/src/main/webapp/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WebHomeWork10/src/main/java/org/bill/webhomework10/AdminFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../WebHomeWork10/src/main/java/org/bill/webhomework10/AdminFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WebHomeWork10/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../WebHomeWork10/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/dynamic-include.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/dynamic-include.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static_include.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static_include.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../WebHomeWork12/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../WebHomeWork12/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WebHomeWork12/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../WebHomeWork12/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WebHomeWork12/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../WebHomeWork12/src/main/webapp/index.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +107,7 @@
       <workItem from="1684579353567" duration="299000" />
       <workItem from="1684579659907" duration="3173000" />
       <workItem from="1684585101529" duration="19000" />
+      <workItem from="1684585884767" duration="311000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1684462238778</created>

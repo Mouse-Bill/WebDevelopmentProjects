@@ -18,6 +18,8 @@
   String message = "This is a dynamic include demo";
 %>
 
+<%request.setAttribute("dy","dy"); %>
+
 <p><%= message %></p>
 
 </body>

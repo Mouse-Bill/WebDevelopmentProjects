@@ -14,8 +14,14 @@
 <%-- Static Include --%>
 <%@ include file="./static_include.jsp" %>
 <br/>
+<p>
+    Static Include = ${st}<br>
+</p>
 <%-- Dynamic Include --%>
 <jsp:include page="./dynamic-include.jsp"/>
+<p>
+    Dynamic Include = ${dy}<br>
+</p>
 <br/>
 </body>
 </html>

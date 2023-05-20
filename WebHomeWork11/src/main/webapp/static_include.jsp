@@ -18,6 +18,8 @@
   String message = "This is a static include demo";
 %>
 
+<%request.setAttribute("st","st"); %>
+
 <p><%= message %></p>
 
 </body>
