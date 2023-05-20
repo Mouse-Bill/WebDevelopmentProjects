@@ -2,10 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>JSP - Filter Test</title>
 </head>
 <body style="font-family: sans-serif">
-<h1><%= "Hello World!" %>
+<h1><%= "Filter Test" %>
 </h1>
 <br/>
 <a href="login.html">Login</a>

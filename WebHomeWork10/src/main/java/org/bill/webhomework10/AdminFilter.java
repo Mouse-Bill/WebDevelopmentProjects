@@ -24,14 +24,11 @@ public class AdminFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        // 获取当前用户的角色信息，这里假设你有一种方法可以获取角色
         String role = getRoleFromSession(request);
 
         if ("admin".equals(role)) {
-            // 角色为"admin"，允许请求通过，继续处理
             filterChain.doFilter(request, response);
         } else {
-            // 角色不是"admin"，拒绝访问，返回错误响应或重定向到其他页面
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
         }
     }
