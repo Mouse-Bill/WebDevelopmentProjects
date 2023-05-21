@@ -55,7 +55,7 @@ const data = reactive(
     rules: {
       fname: [
         { required: true, message: '请输入食品名称', trigger: 'blur' },
-        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        { min: 0, max: 255, message: '长度在 255 个字符以内', trigger: 'blur' }
       ],
       ftype: [
         { required: true, message: '请选择食品类型', trigger: 'change' }

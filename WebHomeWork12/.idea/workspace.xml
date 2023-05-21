@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6a7537f-d016-4e61-b77b-00437636ada5" name="更改" comment="done" />
+    <list default="true" id="e6a7537f-d016-4e61-b77b-00437636ada5" name="更改" comment="donedone" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,6 +54,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/upload" />
       <recent name="$PROJECT_DIR$/src/main/webapp" />
     </key>
   </component>
@@ -108,6 +109,7 @@
       <workItem from="1684462267188" duration="21000" />
       <workItem from="1684582847140" duration="2125000" />
       <workItem from="1684585122576" duration="33000" />
+      <workItem from="1684586529795" duration="871000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1684462275647</created>
@@ -123,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684585148493</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="donedone">
+      <created>1684586803594</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1684586803594</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,6 +141,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="done" />
-    <option name="LAST_COMMIT_MESSAGE" value="done" />
+    <MESSAGE value="donedone" />
+    <option name="LAST_COMMIT_MESSAGE" value="donedone" />
   </component>
 </project>
